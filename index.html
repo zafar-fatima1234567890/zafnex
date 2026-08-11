@@ -1,1 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zafnex Labs - Premium Animated</title>
+    
+    <!-- Advanced Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           ULTRA BRIGHT & ANIMATED STYLES
+           ========================================= */
+        :root {
+            /* BRIGHT NEON GRADIENTS (Same for Both) */
+            --grad-blue: linear-gradient(135deg, #0ea5e9, #00e5ff); 
+            --grad-purple: linear-gradient(135deg, #a855f7, #d946ef); 
+            --grad-green: linear-gradient(135deg, #22c55e, #00f260); 
+            --grad-orange: linear-gradient(135deg, #f97316, #f59e0b); 
+            --grad-dark: linear-gradient(145deg, #0f172a, #1e293b);
+            
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
 
+        /* --- LIGHT MODE VARIABLES (Default) --- */
+        :root, [data-theme="light"] {
+            --bg-main: #f4f7fc;
+            --bg-white: #ffffff;
+            --bg-card-alt: #f8fafc;
+            --text-primary: #020617;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-card: 0 4px 20px rgba(0,0,0,0.02);
+            --shadow-hover: 0 20px 40px rgba(0,0,0,0.06);
+            --badge-bg: rgba(255,255,255,0.7);
+            --badge-border: rgba(255,255,255,0.4);
+            --nav-bg: rgba(255, 255, 255, 0.15);
+            --nav-border: rgba(255, 255, 255, 0.4);
+            --hero-bg: radial-gradient(circle at 10% 20%, #dbeafe 0%, #f0fdfa 60%, var(--bg-main) 100%);
+        }
+
+        /* --- DARK MODE VARIABLES (EXACT NEW SCREENSHOTS) --- */
+        [data-theme="dark"] {
+            --bg-main: #0b1120; /* Deep Dark Blue */
+            --bg-white: #111827; /* Dark Card BG */
+            --bg-card-alt: #1e293b;
+            --text-primary: #f8fafc; /* White Text */
+            --text-secondary: #94a3b8; /* Light Grey Text */
+            --text-muted: #64748b;
+            --border-color: #1e293b;
+            --shadow-card: 0 4px 20px rgba(0,0,0,0.3);
+            --shadow-hover: 0 20px 40px rgba(0,0,0,0.5);
+            --badge-bg: rgba(15, 23, 42, 0.8);
+            --badge-border: rgba(255,255,255,0.1);
+            --nav-bg: rgba(15, 23, 42, 0.8);
+            --nav-border: rgba(255,255,255,0.1);
+            --hero-bg: radial-gradient(circle at 10% 20%, #0f172a 0%, #0b1120 100%);
+        }
+
+        /* --- RESET --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-main); 
+            color: var(--text-primary); 
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+
+        /* --- UTILITIES & ANIMATIONS --- */
+        .gradient-text-blue { background: var(--grad-blue); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .gradient-text-green { background: var(--grad-green); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .gradient-text-purple { background: var(--grad-purple); background-clip: text; -webkit-background-clip: text; color: transparent; }
+
+        .btn-primary {
+            background: var(--grad-blue);
+            color: white; padding: 14px 32px; border-radius: 50px; font-weight: 700; font-size: 1rem;
+            border: none; cursor: pointer; transition: var(--transition-smooth);
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.4); text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 30px rgba(0, 229, 255, 0.6); }
+        
+        .btn-outline {
+            background: var(--badge-bg); backdrop-filter: blur(10px);
+            color: var(--text-primary); padding: 14px 32px; border-radius: 50px; font-weight: 700; font-size: 1rem;
+            border: 1px solid var(--border-color); cursor: pointer; transition: var(--transition-smooth);
+        }
+        .btn-outline:hover { background: var(--bg-white); border-color: var(--text-primary); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+
+        /* Fade & Slide Up Animation */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        .section-title { text-align: center; margin-bottom: 4rem; }
+        .section-title h2 { font-size: 3rem; font-weight: 900; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 1rem; }
+        .section-title p { color: var(--text-secondary); font-size: 1.15rem; font-weight: 400; }
+
+        /* --- TOGGLE BUTTON --- */
+        .theme-toggle {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--badge-bg); border: 1px solid var(--border-color);
+            color: var(--text-primary); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition-smooth); font-size: 1.2rem;
+        }
+        .theme-toggle:hover { transform: scale(1.05); background: var(--bg-white); }
+
+        /* --- NAVBAR (GLASS MORPHISM) --- */
+        nav { position: sticky; top: 20px; z-index: 100; max-width: 1280px; margin: 0 auto 2rem auto; padding: 0 2rem; transform: translateY(20px); }
+        .nav-inner { 
+            background: var(--nav-bg); backdrop-filter: blur(16px); 
+            border: 1px solid var(--nav-border); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); 
+            border-radius: 100px; padding: 0.9rem 2.5rem; display: flex; justify-content: space-between; align-items: center; 
+        }
+        .logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.3rem; color: var(--text-primary); }
+        .logo-icon { width: 38px; height: 38px; border-radius: 50%; background: var(--grad-blue); display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3); }
+        .nav-links { display: flex; gap: 2.5rem; align-items: center; font-weight: 700; font-size: 0.95rem; color: var(--text-secondary); }
+        .nav-links a { position: relative; padding: 4px 0; transition: all 0.3s; }
+        .nav-links a:hover { color: #0ea5e9; }
+        .nav-links a.active { color: #0ea5e9; }
+        .nav-links a.active::after { content: ''; position: absolute; width: 100%; height: 3px; background: var(--grad-blue); border-radius: 10px; bottom: -6px; left: 0; }
+        .nav-actions { display: flex; align-items: center; gap: 12px; }
+
+        /* --- HERO (ULTRA BRIGHT) --- */
+        #hero { 
+            padding: 4rem 0 2rem 0; 
+            background: var(--hero-bg); 
+            border-radius: 40px; margin: 0 2rem; margin-bottom: 5rem; 
+        }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; padding: 2rem 2rem 0 2rem; }
+        
+        .hero-text .top-badge { 
+            display: inline-flex; align-items: center; gap: 8px; 
+            background: var(--badge-bg); backdrop-filter: blur(8px);
+            padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; font-weight: 700; color: var(--text-primary);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.03); margin-bottom: 2.5rem; 
+            border: 1px solid var(--border-color);
+        }
+        .hero-text h1 { 
+            font-size: 4.5rem; line-height: 1.05; font-weight: 900; 
+            letter-spacing: -0.02em; margin-bottom: 1.8rem; text-shadow: 0 0 40px rgba(14, 165, 233, 0.05);
+        }
+        .hero-text p { color: var(--text-secondary); font-size: 1.2rem; font-weight: 500; line-height: 1.7; margin-bottom: 3rem; max-width: 90%; }
+        .hero-buttons { display: flex; gap: 1.2rem; margin-bottom: 3rem; }
+        .hero-badges { display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--text-secondary); }
+
+        /* Hero Image with Vibrant Glow */
+        .hero-img-wrap { position: relative; padding-bottom: 2rem; }
+        .hero-img-placeholder { 
+            width: 100%; height: 480px; border-radius: 30px; 
+            background: radial-gradient(circle at center, #00e5ff 10%, #0f172a 80%); 
+            display: flex; align-items: center; justify-content: center; 
+            overflow: hidden; position: relative; box-shadow: 0 30px 60px rgba(0, 229, 255, 0.2); 
+        }
+        .img-text { color: white; font-size: 4rem; font-weight: 900; z-index: 10; text-align: center; line-height: 1.2; text-shadow: 0 0 50px rgba(0, 229, 255, 0.4); letter-spacing: -0.02em; }
+        
+        /* Floating Neon Bubbles */
+        .float-badge { 
+            position: absolute; background: var(--badge-bg); backdrop-filter: blur(12px); 
+            padding: 12px 18px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.08); 
+            font-size: 0.9rem; display: flex; align-items: center; gap: 12px; border: 1px solid var(--badge-border); 
+            font-weight: 600; color: var(--text-primary);
+        }
+        .float-badge.top { top: 25px; right: -25px; }
+        .float-badge.bottom { bottom: 25px; left: -25px; }
+        .badge-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+        .badge-icon.blue { background: #dbeafe; color: #0ea5e9; }
+        .badge-icon.green { background: #d1fae5; color: #22c55e; }
+
+        /* --- STATS --- */
+        #stats { padding: 2rem 0 5rem 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+        .stat-card { 
+            background: var(--bg-white); padding: 2.5rem; border-radius: 24px; 
+            border: 1px solid var(--border-color); text-align: center; 
+            transition: var(--transition-smooth); box-shadow: var(--shadow-card);
+        }
+        .stat-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: var(--shadow-hover); border-color: #0ea5e9; }
+        .stat-card h3 { font-size: 3.5rem; font-weight: 900; background: var(--grad-blue); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .stat-card p { color: var(--text-muted); font-weight: 600; margin-top: 5px; font-size: 1.05rem; }
+
+        /* --- TRUST LOGOS SLIDER --- */
+        #trust { padding: 3rem 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); background: var(--bg-white); margin-bottom: 5rem; overflow: hidden; }
+        .trust-inner { text-align: center; }
+        .trust-inner p { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); font-weight: 800; margin-bottom: 2rem; }
+        
+        .logo-slider-track {
+            display: flex;
+            width: calc(200px * 12); 
+            animation: scrollLogos 20s linear infinite;
+        }
+        .logo-slide { width: 200px; display: flex; justify-content: center; align-items: center; font-weight: 900; font-size: 1.3rem; color: #cbd5e1; transition: all 0.3s; }
+        .logo-slide:hover { color: #0ea5e9; transform: scale(1.05); }
+        
+        @keyframes scrollLogos {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-200px * 6)); } 
+        }
+
+        /* --- SERVICES --- */
+        #services { padding: 4rem 0; }
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+        .service-card { 
+            background: var(--bg-white); padding: 2.5rem; border-radius: 24px; 
+            border: 1px solid var(--border-color); transition: var(--transition-smooth); 
+            box-shadow: var(--shadow-card);
+        }
+        .service-card:hover { 
+            transform: translateY(-8px); box-shadow: var(--shadow-hover); border-color: #0ea5e9; 
+        }
+        .service-icon { 
+            width: 60px; height: 60px; border-radius: 16px; background: var(--grad-blue); 
+            display: flex; align-items: center; justify-content: center; color: white; font-size: 1.6rem; font-weight: 900; 
+            margin-bottom: 1.5rem; box-shadow: 0 8px 20px rgba(14, 165, 233, 0.2); 
+        }
+        .service-card h3 { font-size: 1.4rem; margin-bottom: 0.8rem; font-weight: 800; }
+        .service-card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem; }
+        .service-link { color: #0ea5e9; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: all 0.3s; font-size: 0.95rem; }
+        .service-link:hover { gap: 15px; transform: translateX(5px); }
+
+        /* --- PORTFOLIO SLIDER --- */
+        #portfolio { padding: 5rem 0; background: var(--bg-main); }
+        .slider-container { position: relative; overflow: hidden; padding: 2rem 0; }
+        .slider-track { display: flex; gap: 2rem; transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: transform; }
+        .slide { flex: 0 0 calc(33.333% - 1.333rem); }
+
+        .portfolio-card { 
+            height: 420px; border-radius: 30px; position: relative; display: flex; flex-direction: column; justify-content: flex-end; 
+            padding: 2.5rem; color: white; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); cursor: pointer; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+        }
+        .portfolio-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 30px 50px rgba(0,0,0,0.2); }
+        
+        .port-1 { background: linear-gradient(145deg, #0ea5e9, #1e3a8a); } /* Deep Blue */
+        .port-2 { background: linear-gradient(145deg, #22c55e, #064e3b); } /* Bright Green */
+        .port-3 { background: linear-gradient(145deg, #a855f7, #4c1d95); } /* Neon Purple */
+        .port-4 { background: linear-gradient(145deg, #f97316, #7c2d12); } /* Bright Orange */
+        
+        .port-tag { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.8; margin-bottom: 0.5rem; }
+        .portfolio-card h3 { font-size: 2rem; font-weight: 900; letter-spacing: -0.02em; }
+
+        .slider-btn { 
+            position: absolute; top: 50%; transform: translateY(-50%); 
+            background: var(--bg-white); backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color); border-radius: 50%; width: 50px; height: 50px; 
+            display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05); transition: all 0.3s; font-size: 1.2rem; color: var(--text-primary);
+        }
+        .slider-btn:hover { background: var(--bg-card-alt); transform: translateY(-50%) scale(1.1); box-shadow: 0 8px 30px rgba(14, 165, 233, 0.15); }
+        .slider-btn.prev { left: -20px; }
+        .slider-btn.next { right: -20px; }
+
+        /* --- WHY ZAFNEX --- */
+        #why { padding: 5rem 0; background: var(--bg-white); }
+        .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+        .why-left h2 { font-size: 3rem; font-weight: 900; line-height: 1.2; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+        .why-left p { color: var(--text-secondary); font-size: 1.1rem; font-weight: 500; line-height: 1.7; margin-bottom: 2rem; }
+        .check-list { list-style: none; }
+        .check-list li { margin-bottom: 1.2rem; display: flex; align-items: center; gap: 15px; font-weight: 700; font-size: 1.05rem; color: var(--text-primary); }
+        .check-list li::before { content: '✓'; background: var(--grad-blue); color: white; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; box-shadow: 0 4px 10px rgba(14, 165, 233, 0.2); }
+        
+        .why-right { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .why-card { 
+            padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 20px; background: var(--bg-card-alt); 
+            transition: var(--transition-smooth); 
+        }
+        .why-card:hover { border-color: #0ea5e9; background: var(--bg-white); transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+        .why-card h4 { font-size: 1.1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px; font-weight: 800; }
+        .why-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; font-weight: 500; }
+
+        /* --- FOOTER --- */
+        footer { background: #0f172a; color: #94a3b8; padding: 5rem 0 2rem 0; }
+        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+        .f-brand p { max-width: 300px; line-height: 1.8; margin: 1.2rem 0; color: #64748b; }
+        .f-social { display: flex; gap: 1rem; }
+        .f-social span { width: 42px; height: 42px; border: 1px solid #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; cursor: pointer; color: #94a3b8; }
+        .f-social span:hover { border-color: #0ea5e9; color: #0ea5e9; background: rgba(14, 165, 233, 0.1); transform: translateY(-3px); }
+        .f-col h4 { color: white; margin-bottom: 1.5rem; font-size: 1.1rem; font-weight: 800; }
+        .f-col ul { list-style: none; }
+        .f-col ul li { margin-bottom: 0.8rem; }
+        .f-col ul li a { transition: color 0.3s; }
+        .f-col ul li a:hover { color: white; transform: translateX(5px); display: inline-block; }
+        
+        .news-box { 
+            background: rgba(255,255,255,0.05); padding: 2.5rem; border-radius: 24px; 
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; 
+            border: 1px solid #1e293b; 
+        }
+        .news-box h4 { color: white; font-size: 1.3rem; font-weight: 800; margin-bottom: 0.3rem; }
+        .news-box p { font-size: 0.95rem; color: #64748b; }
+        .news-form { display: flex; gap: 10px; }
+        .news-form input { 
+            padding: 14px 24px; border-radius: 50px; border: 1px solid #1e293b; background: #1e293b; 
+            color: white; width: 280px; outline: none; font-weight: 500; transition: border 0.3s; 
+        }
+        .news-form input:focus { border-color: #0ea5e9; box-shadow: 0 0 15px rgba(14, 165, 233, 0.1); }
+        
+        .f-bottom { border-top: 1px solid #1e293b; padding-top: 2rem; display: flex; justify-content: space-between; font-size: 0.9rem; }
+        .f-links { display: flex; gap: 2rem; }
+        .f-links a:hover { color: white; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) { 
+            .slide { flex: 0 0 calc(50% - 1rem); } 
+            .hero-grid, .why-grid { grid-template-columns: 1fr; text-align: center; } 
+            .float-badge { display: none; }
+            .slider-btn.prev { left: 10px; }
+            .slider-btn.next { right: 10px; }
+            .hero-text h1 { font-size: 3.2rem; }
+            .hero-text p { max-width: 100%; }
+            .hero-buttons { justify-content: center; }
+        }
+        @media (max-width: 768px) { 
+            .slide { flex: 0 0 100%; } 
+            .services-grid { grid-template-columns: 1fr 1fr; } 
+            .f-grid { grid-template-columns: 1fr; } 
+            .stats-grid { grid-template-columns: 1fr 1fr; } 
+            .nav-links { display: none; }
+            .logo-slider-track { animation: scrollLogos 10s linear infinite; }
+            #hero { margin: 0 1rem; }
+            #cta { margin: 0 1rem; }
+        }
+        @media (max-width: 480px) { 
+            .services-grid { grid-template-columns: 1fr; } 
+            .why-right { grid-template-columns: 1fr; } 
+            .hero-text h1 { font-size: 2.5rem; } 
+            .news-box { flex-direction: column; gap: 20px; align-items: stretch; }
+            .news-form { flex-direction: column; }
+            .news-form input { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="logo">
+                <div class="logo-icon">Z</div> Zafnex Labs
+            </a>
+            <div class="nav-links">
+                <a href="#" class="active">Home</a>
+                <a href="#">Services</a>
+                <a href="#">Portfolio</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+                <button class="btn-primary">Get Started</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="hero">
+        <div class="container hero-grid">
+            <div class="hero-text reveal">
+                <div class="top-badge">✦ Premium Software Studio · Est. 2013</div>
+                <h1>
+                    We build <span class="gradient-text-blue">world-</span><br>
+                    <span class="gradient-text-green">class</span> software<br>
+                    for ambitious<br>
+                    teams.
+                </h1>
+                <p>Zafnex Labs is a premium engineering studio crafting web, mobile, ERP, AI and cloud products that customers love and enterprises trust.</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary">Start a project →</button>
+                    <button class="btn-outline">▶ Watch showreel</button>
+                </div>
+                <div class="hero-badges">
+                    <span style="font-weight: 800; color: #10b981; letter-spacing: 1px;">★★★★★</span> Trusted by 45+ enterprise teams
+                </div>
+            </div>
+            <div class="hero-img-wrap reveal" style="transition-delay: 0.2s;">
+                <div class="hero-img-placeholder">
+                    <div class="img-text">Connecting<br>Innovation</div>
+                </div>
+                <div class="float-badge top"><div class="badge-icon blue">🌍</div> Serving <br><strong>30+ Countries</strong></div>
+                <div class="float-badge bottom"><div class="badge-icon green">⚡</div> Deployment <br><strong>99.99% Uptime</strong></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section id="stats">
+        <div class="container stats-grid">
+            <div class="stat-card reveal"><h3>250+</h3><p>Projects Delivered</p></div>
+            <div class="stat-card reveal" style="transition-delay: 0.1s;"><h3>98%</h3><p>Client Retention</p></div>
+            <div class="stat-card reveal" style="transition-delay: 0.2s;"><h3>45+</h3><p>Enterprise Clients</p></div>
+            <div class="stat-card reveal" style="transition-delay: 0.3s;"><h3>12y</h3><p>Years of Craft</p></div>
+        </div>
+    </section>
+
+    <!-- Trust Logos (Infinite Slider) -->
+    <section id="trust">
+        <div class="container trust-inner">
+            <p>Trusted by forward-thinking companies</p>
+            <div class="logo-slider-track">
+                <!-- 6 Unique Logos -->
+                <div class="logo-slide">⏐ Corp</div>
+                <div class="logo-slide">Meridian</div>
+                <div class="logo-slide">Stellar</div>
+                <div class="logo-slide">Orbital</div>
+                <div class="logo-slide">Nimbus</div>
+                <div class="logo-slide">Quanta</div>
+                <!-- Duplicates for Infinite Loop -->
+                <div class="logo-slide">⏐ Corp</div>
+                <div class="logo-slide">Meridian</div>
+                <div class="logo-slide">Stellar</div>
+                <div class="logo-slide">Orbital</div>
+                <div class="logo-slide">Nimbus</div>
+                <div class="logo-slide">Quanta</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services">
+        <div class="container">
+            <div class="section-title reveal">
+                <h4 style="color: #0ea5e9; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">What we do</h4>
+                <h2>End-to-end product <span class="gradient-text-green">engineering</span></h2>
+                <p>From strategy to shipping — six specialized practices under one roof.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card reveal"><div class="service-icon">&lt;/&gt;</div><h3>Web Development</h3><p>Blazing-fast, SEO-first web platforms built with modern React and edge infrastructure.</p><a href="#" class="service-link">Learn more →</a></div>
+                <div class="service-card reveal" style="transition-delay: 0.1s;"><div class="service-icon">📱</div><h3>Mobile Apps</h3><p>Native-quality iOS & Android apps with pixel-perfect design and offline resilience.</p><a href="#" class="service-link">Learn more →</a></div>
+                <div class="service-card reveal" style="transition-delay: 0.2s;"><div class="service-icon">🗄️</div><h3>ERP Solutions</h3><p>Custom ERP systems that streamline operations, finance, HR and inventory workflows.</p><a href="#" class="service-link">Learn more →</a></div>
+                <div class="service-card reveal" style="transition-delay: 0.3s;"><div class="service-icon">🧠</div><h3>AI Solutions</h3><p>Production-grade AI: LLMs, vector search, agents, and predictive analytics.</p><a href="#" class="service-link">Learn more →</a></div>
+                <div class="service-card reveal" style="transition-delay: 0.4s;"><div class="service-icon">🎨</div><h3>UI/UX Design</h3><p>Elegant, research-driven product design that converts visitors into loyal users.</p><a href="#" class="service-link">Learn more →</a></div>
+                <div class="service-card reveal" style="transition-delay: 0.5s;"><div class="service-icon">☁️</div><h3>Cloud Solutions</h3><p>Scalable cloud architecture on AWS, GCP and Azure with observability baked in.</p><a href="#" class="service-link">Learn more →</a></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Slider -->
+    <section id="portfolio">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Products we're <span class="gradient-text-blue">proud of</span></h2>
+                <p>A snapshot of what we've shipped for clients across industries.</p>
+            </div>
+            <div class="slider-container">
+                <div class="slider-track" id="portfolioTrack">
+                    <div class="slide"><div class="portfolio-card port-1"><div class="port-tag">Fintech</div><h3>FinEdge Banking</h3></div></div>
+                    <div class="slide"><div class="portfolio-card port-2"><div class="port-tag">Healthcare</div><h3>MedCore ERP</h3></div></div>
+                    <div class="slide"><div class="portfolio-card port-3"><div class="port-tag">AI SaaS</div><h3>Nova AI Studio</h3></div></div>
+                    <div class="slide"><div class="portfolio-card port-4"><div class="port-tag">E-Commerce</div><h3>Retailly</h3></div></div>
+                    
+                    <!-- Duplicates for loop -->
+                    <div class="slide"><div class="portfolio-card port-1"><div class="port-tag">Fintech</div><h3>FinEdge Banking</h3></div></div>
+                    <div class="slide"><div class="portfolio-card port-2"><div class="port-tag">Healthcare</div><h3>MedCore ERP</h3></div></div>
+                    <div class="slide"><div class="portfolio-card port-3"><div class="port-tag">AI SaaS</div><h3>Nova AI Studio</h3></div></div>
+                    <div class="slide"><div class="portfolio-card port-4"><div class="port-tag">E-Commerce</div><h3>Retailly</h3></div></div>
+                </div>
+                <button class="slider-btn prev" onclick="slideLeft('portfolioTrack')">‹</button>
+                <button class="slider-btn next" onclick="slideRight('portfolioTrack')">›</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Zafnex -->
+    <section id="why">
+        <div class="container why-grid">
+            <div class="why-left reveal">
+                <h4 style="color: #0ea5e9; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Why Zafnex</h4>
+                <h2>Built for teams that <br><span class="gradient-text-purple">refuse to compromise</span>.</h2>
+                <p>We combine the polish of a design agency with the rigor of a top engineering firm. Every pixel, every commit — considered.</p>
+                <ul class="check-list">
+                    <li>Fixed timelines & transparent pricing</li>
+                    <li>Weekly demos, real-time Slack access</li>
+                    <li>Full IP ownership, no lock-in</li>
+                    <li>Post-launch success partnership</li>
+                </ul>
+            </div>
+            <div class="why-right reveal" style="transition-delay: 0.2s;">
+                <div class="why-card"><h4>🏆 Award-winning craft</h4><p>Recognized by Awwwards, CSSDA and FWA for design excellence.</p></div>
+                <div class="why-card"><h4>🔒 Enterprise-grade security</h4><p>SOC 2, GDPR-ready processes. Security is not an afterthought.</p></div>
+                <div class="why-card"><h4>🚀 Speed to market</h4><p>Ship in weeks, not quarters. Our sprint model compounds velocity.</p></div>
+                <div class="why-card"><h4>👥 Senior-only team</h4><p>No juniors on your project. Deep expertise from day one.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="f-grid">
+                <div class="f-brand"><div class="logo" style="color: white;"><div class="logo-icon">Z</div> Zafnex Labs</div><p>Engineering premium software experiences for ambitious teams worldwide.</p><div class="f-social"><span>𝕏</span> <span>in</span> <span>✉️</span></div></div>
+                <div class="f-col"><h4>Services</h4><ul><li><a href="#">Web Development</a></li><li><a href="#">Mobile Apps</a></li><li><a href="#">ERP Solutions</a></li><li><a href="#">AI Solutions</a></li></ul></div>
+                <div class="f-col"><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Portfolio</a></li><li><a href="#">Careers</a></li><li><a href="#">Blog</a></li></ul></div>
+                <div class="f-col"><h4>Resources</h4><ul><li><a href="#">Documentation</a></li><li><a href="#">Case Studies</a></li><li><a href="#">Support</a></li><li><a href="#">Privacy</a></li></ul></div>
+            </div>
+            <div class="news-box"><div><h4>Subscribe to our newsletter</h4><p>Product insights and industry trends. No spam.</p></div><div class="news-form"><input type="email" placeholder="you@company.com"><button class="btn-primary">Subscribe →</button></div></div>
+            <div class="f-bottom"><span>© 2026 Zafnex Labs. All rights reserved.</span><div class="f-links"><a href="#">Privacy</a> <a href="#">Terms</a> <a href="#">Cookies</a></div></div>
+        </div>
+    </footer>
+
+    <!-- =========================================
+         JAVASCRIPT (SLIDERS, SCROLL & THEME TOGGLE)
+         ========================================= -->
+    <script>
+        // --- SCROLL ANIMATION (Intersection Observer) ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const reveals = document.querySelectorAll('.reveal');
+            const windowHeight = window.innerHeight;
+            
+            const revealOnScroll = () => {
+                const elementVisible = 150; // How many pixels before element appears
+                
+                reveals.forEach((reveal) => {
+                    const rect = reveal.getBoundingClientRect();
+                    if (rect.top < windowHeight - elementVisible) {
+                        reveal.classList.add('active');
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', revealOnScroll);
+            // Trigger once on load
+            revealOnScroll();
+        });
+
+        // --- PORTFOLIO AUTO SLIDER ---
+        let portfolioInterval;
+        let portfolioIndex = 0;
+
+        function startAutoSlide() {
+            const track = document.getElementById('portfolioTrack');
+            const slides = track.querySelectorAll('.slide');
+            
+            clearInterval(portfolioInterval);
+
+            portfolioInterval = setInterval(() => {
+                portfolioIndex++;
+                const slideWidth = slides[0].offsetWidth + 32; // 32 is gap
+                
+                if (portfolioIndex >= slides.length / 2) { // Reset to start for seamless loop
+                    track.style.transition = 'none';
+                    track.style.transform = 'translateX(0)';
+                    portfolioIndex = 0;
+                    setTimeout(() => { track.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)'; }, 20);
+                } else {
+                    track.style.transform = `translateX(-${portfolioIndex * slideWidth}px)`;
+                }
+            }, 3000); // Slide every 3 seconds
+        }
+
+        function slideLeft() {
+            const track = document.getElementById('portfolioTrack');
+            const slides = track.querySelectorAll('.slide');
+            const slideWidth = slides[0].offsetWidth + 32;
+            
+            clearInterval(portfolioInterval);
+            portfolioIndex = Math.max(0, portfolioIndex - 1);
+            track.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            track.style.transform = `translateX(-${portfolioIndex * slideWidth}px)`;
+            startAutoSlide();
+        }
+
+        function slideRight() {
+            const track = document.getElementById('portfolioTrack');
+            const slides = track.querySelectorAll('.slide');
+            const slideWidth = slides[0].offsetWidth + 32;
+            
+            clearInterval(portfolioInterval);
+            portfolioIndex = Math.min(slides.length / 2 - 1, portfolioIndex + 1);
+            track.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            track.style.transform = `translateX(-${portfolioIndex * slideWidth}px)`;
+            startAutoSlide();
+        }
+
+        // --- THEME TOGGLE LOGIC ---
+        const themeToggle = document.getElementById('themeToggle');
+        
+        // Check for saved theme preference
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateToggleIcon(currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            let theme = document.documentElement.getAttribute('data-theme');
+            let newTheme = theme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateToggleIcon(newTheme);
+        });
+
+        function updateToggleIcon(theme) {
+            themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+
+        // Start Slider on Load
+        window.onload = function() {
+            startAutoSlide();
+        };
+    </script>
+
+</body>
+</html>
