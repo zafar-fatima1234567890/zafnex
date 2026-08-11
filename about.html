@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Zafnex Labs</title>
+    
+    <!-- Advanced Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           EXACT SAME VARIABLES AS HOME PAGE
+           ========================================= */
+        :root {
+            /* BRIGHT NEON GRADIENTS */
+            --grad-blue: linear-gradient(135deg, #0ea5e9, #00e5ff); 
+            --grad-purple: linear-gradient(135deg, #a855f7, #d946ef); 
+            --grad-green: linear-gradient(135deg, #22c55e, #00f260); 
+            --grad-orange: linear-gradient(135deg, #f97316, #f59e0b); 
+            --grad-dark: linear-gradient(145deg, #0f172a, #1e293b);
+            
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* --- LIGHT MODE VARIABLES --- */
+        :root, [data-theme="light"] {
+            --bg-main: #f4f7fc;
+            --bg-white: #ffffff;
+            --bg-card-alt: #f8fafc;
+            --text-primary: #020617;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-card: 0 4px 20px rgba(0,0,0,0.02);
+            --shadow-hover: 0 20px 40px rgba(0,0,0,0.06);
+            --badge-bg: rgba(255,255,255,0.7);
+            --badge-border: rgba(255,255,255,0.4);
+            --nav-bg: rgba(255, 255, 255, 0.15);
+            --nav-border: rgba(255, 255, 255, 0.4);
+            --hero-bg: radial-gradient(circle at 10% 20%, #dbeafe 0%, #f0fdfa 60%, var(--bg-main) 100%);
+        }
+
+        /* --- DARK MODE VARIABLES --- */
+        [data-theme="dark"] {
+            --bg-main: #0b1120;
+            --bg-white: #111827;
+            --bg-card-alt: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #1e293b;
+            --shadow-card: 0 4px 20px rgba(0,0,0,0.3);
+            --shadow-hover: 0 20px 40px rgba(0,0,0,0.5);
+            --badge-bg: rgba(15, 23, 42, 0.8);
+            --badge-border: rgba(255,255,255,0.1);
+            --nav-bg: rgba(15, 23, 42, 0.8);
+            --nav-border: rgba(255,255,255,0.1);
+            --hero-bg: radial-gradient(circle at 10% 20%, #0f172a 0%, #0b1120 100%);
+        }
+
+        /* --- RESET --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-main); 
+            color: var(--text-primary); 
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+
+        /* --- UTILITIES & ANIMATIONS --- */
+        .gradient-text-blue { background: var(--grad-blue); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .gradient-text-green { background: var(--grad-green); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .gradient-text-purple { background: var(--grad-purple); background-clip: text; -webkit-background-clip: text; color: transparent; }
+
+        .btn-primary {
+            background: var(--grad-blue);
+            color: white; padding: 14px 32px; border-radius: 50px; font-weight: 700; font-size: 1rem;
+            border: none; cursor: pointer; transition: var(--transition-smooth);
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.4); text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 30px rgba(0, 229, 255, 0.6); }
+        
+        .btn-outline {
+            background: var(--badge-bg); backdrop-filter: blur(10px);
+            color: var(--text-primary); padding: 14px 32px; border-radius: 50px; font-weight: 700; font-size: 1rem;
+            border: 1px solid var(--border-color); cursor: pointer; transition: var(--transition-smooth);
+        }
+        .btn-outline:hover { background: var(--bg-white); border-color: var(--text-primary); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+
+        /* Fade & Slide Up Animation */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        .section-title { text-align: center; margin-bottom: 4rem; }
+        .section-title h2 { font-size: 3rem; font-weight: 900; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 1rem; }
+        .section-title p { color: var(--text-secondary); font-size: 1.15rem; font-weight: 400; }
+
+        /* --- TOGGLE BUTTON --- */
+        .theme-toggle {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--badge-bg); border: 1px solid var(--border-color);
+            color: var(--text-primary); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition-smooth); font-size: 1.2rem;
+        }
+        .theme-toggle:hover { transform: scale(1.05); background: var(--bg-white); }
+
+        /* --- NAVBAR --- */
+        nav { position: sticky; top: 20px; z-index: 100; max-width: 1280px; margin: 0 auto 2rem auto; padding: 0 2rem; transform: translateY(20px); }
+        .nav-inner { 
+            background: var(--nav-bg); backdrop-filter: blur(16px); 
+            border: 1px solid var(--nav-border); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); 
+            border-radius: 100px; padding: 0.9rem 2.5rem; display: flex; justify-content: space-between; align-items: center; 
+        }
+        .logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.3rem; color: var(--text-primary); }
+        .logo-icon { width: 38px; height: 38px; border-radius: 50%; background: var(--grad-blue); display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3); }
+        .nav-links { display: flex; gap: 2.5rem; align-items: center; font-weight: 700; font-size: 0.95rem; color: var(--text-secondary); }
+        .nav-links a { position: relative; padding: 4px 0; transition: all 0.3s; }
+        .nav-links a:hover { color: #0ea5e9; }
+        .nav-links a.active { color: #0ea5e9; }
+        .nav-links a.active::after { content: ''; position: absolute; width: 100%; height: 3px; background: var(--grad-blue); border-radius: 10px; bottom: -6px; left: 0; }
+        .nav-actions { display: flex; align-items: center; gap: 12px; }
+
+        /* =========================================
+           ABOUT HERO
+           ========================================= */
+        #about-hero { 
+            padding: 4rem 0; 
+            background: var(--hero-bg); 
+            border-radius: 40px; margin: 0 2rem 5rem 2rem; 
+        }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; padding: 2rem 2rem 0 2rem; }
+        
+        .hero-text .top-badge { 
+            display: inline-flex; align-items: center; gap: 8px; 
+            background: var(--badge-bg); backdrop-filter: blur(8px);
+            padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; font-weight: 700; color: var(--text-primary);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.03); margin-bottom: 2.5rem; 
+            border: 1px solid var(--border-color);
+        }
+        .hero-text h1 { 
+            font-size: 4.5rem; line-height: 1.05; font-weight: 900; 
+            letter-spacing: -0.02em; margin-bottom: 1.8rem; text-shadow: 0 0 40px rgba(14, 165, 233, 0.05);
+        }
+        .hero-text p { color: var(--text-secondary); font-size: 1.2rem; font-weight: 500; line-height: 1.7; margin-bottom: 3rem; max-width: 90%; }
+        .hero-buttons { display: flex; gap: 1.2rem; margin-bottom: 3rem; }
+
+        /* Hero Image with Vibrant Glow */
+        .hero-img-wrap { position: relative; padding-bottom: 2rem; }
+        .hero-img-placeholder { 
+            width: 100%; height: 480px; border-radius: 30px; 
+            background: radial-gradient(circle at center, #00e5ff 10%, #0f172a 80%); 
+            display: flex; align-items: center; justify-content: center; 
+            overflow: hidden; position: relative; box-shadow: 0 30px 60px rgba(0, 229, 255, 0.2); 
+        }
+        .img-text { color: white; font-size: 4rem; font-weight: 900; z-index: 10; text-align: center; line-height: 1.2; text-shadow: 0 0 50px rgba(0, 229, 255, 0.4); letter-spacing: -0.02em; }
+
+        /* =========================================
+           COMPANY STORY
+           ========================================= */
+        #story { padding: 4rem 0; background: var(--bg-white); }
+        .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .story-text h2 { font-size: 3rem; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+        .story-text p { color: var(--text-secondary); font-size: 1.15rem; font-weight: 400; line-height: 1.7; }
+        .story-img { 
+            background: var(--grad-blue); 
+            min-height: 350px; border-radius: 30px; 
+            display: flex; align-items: center; justify-content: center; 
+            color: white; font-size: 2.5rem; font-weight: 900; 
+            box-shadow: 0 30px 60px rgba(0, 229, 255, 0.2); padding: 2rem; text-align: center; 
+        }
+        
+        /* =========================================
+           MISSION & VISION (WITH BG IMAGES)
+           ========================================= */
+        #mission-vision { padding: 5rem 0; background: var(--bg-main); }
+        .mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .mv-card { 
+            padding: 3rem; border-radius: 24px; 
+            border: 1px solid var(--border-color); transition: var(--transition-smooth); 
+            box-shadow: var(--shadow-card);
+            position: relative; overflow: hidden;
+            color: var(--text-primary); min-height: 250px;
+            background-size: cover; background-position: center;
+        }
+        .mv-card::before {
+            content: ''; position: absolute; inset: 0;
+            background: var(--badge-bg); /* Dynamic Overlay based on theme */
+            backdrop-filter: blur(2px);
+            transition: var(--transition-smooth);
+        }
+        .mv-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+        .mv-card:hover::before { background: var(--badge-bg); }
+        .mv-card * { position: relative; z-index: 2; }
+        .mv-card h3 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; }
+        .mv-card p { line-height: 1.7; font-size: 1.05rem; }
+
+        /* =========================================
+           CORE VALUES (WITH BG IMAGES)
+           ========================================= */
+        #values { padding: 5rem 0; background: var(--bg-white); }
+        .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+        .value-card { 
+            text-align: center; padding: 2.5rem; border-radius: 24px; 
+            border: 1px solid var(--border-color); transition: var(--transition-smooth); 
+            box-shadow: var(--shadow-card);
+            position: relative; overflow: hidden;
+            background-size: cover; background-position: center; min-height: 250px;
+        }
+        .value-card::before {
+            content: ''; position: absolute; inset: 0;
+            background: var(--badge-bg);
+            backdrop-filter: blur(2px);
+            transition: var(--transition-smooth);
+        }
+        .value-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-hover); }
+        .value-card * { position: relative; z-index: 2; }
+        .value-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+        .value-card h4 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.8rem; }
+        .value-card p { line-height: 1.6; }
+
+        /* =========================================
+           MEET THE TEAM
+           ========================================= */
+        #team { padding: 5rem 0; background: var(--bg-main); }
+        .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+        .team-card { 
+            background: var(--bg-white); padding: 2.5rem; border-radius: 24px; 
+            text-align: center; border: 1px solid var(--border-color); 
+            transition: var(--transition-smooth); box-shadow: var(--shadow-card);
+        }
+        .team-card:hover { transform: translateY(-5px); border-color: #0ea5e9; box-shadow: var(--shadow-hover); }
+        .team-avatar { 
+            width: 120px; height: 120px; border-radius: 50%; background: var(--grad-blue); 
+            margin: 0 auto 1.5rem auto; display: flex; align-items: center; justify-content: center; 
+            color: white; font-size: 3rem; font-weight: 900; box-shadow: 0 8px 20px rgba(14, 165, 233, 0.2);
+        }
+        .team-card h4 { font-size: 1.3rem; font-weight: 800; }
+        .team-card p.role { color: #0ea5e9; font-weight: 600; margin-bottom: 0.5rem; }
+        .team-card p.skills { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .linkedin-btn { 
+            background: #0a66c2; color: white; padding: 8px 20px; border-radius: 50px; 
+            font-weight: 600; display: inline-flex; align-items: center; gap: 8px; 
+            transition: var(--transition-smooth); border: none; cursor: pointer; 
+        }
+        .linkedin-btn:hover { transform: scale(1.05); opacity: 0.9; }
+
+        /* =========================================
+           COMPANY TIMELINE (WITH BG IMAGES)
+           ========================================= */
+        #timeline { padding: 5rem 0; background: var(--bg-white); }
+        .timeline-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+        .timeline-card { 
+            text-align: center; padding: 2rem; border-radius: 24px; 
+            border: 1px solid var(--border-color); transition: var(--transition-smooth); 
+            position: relative; overflow: hidden; min-height: 200px;
+            background-size: cover; background-position: center;
+        }
+        .timeline-card::before {
+            content: ''; position: absolute; inset: 0;
+            background: var(--badge-bg);
+            backdrop-filter: blur(2px);
+            transition: var(--transition-smooth);
+        }
+        .timeline-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+        .timeline-card * { position: relative; z-index: 2; }
+        .timeline-year { 
+            font-size: 3rem; font-weight: 900; 
+            background: var(--grad-blue); background-clip: text; -webkit-background-clip: text; color: transparent; 
+            margin-bottom: 0.5rem; 
+        }
+        .timeline-card h4 { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .timeline-card p { color: var(--text-secondary); }
+
+        /* =========================================
+           TECH STACK INFINITE SLIDER
+           ========================================= */
+        #tech-stack { padding: 4rem 0; background: var(--bg-main); overflow: hidden; }
+        .tech-slider-track {
+            display: flex;
+            width: calc(200px * 28); /* 14 unique * 2 duplicates */
+            animation: scrollTech 20s linear infinite;
+        }
+        .tech-slider-track:hover { animation-play-state: paused; } /* Pause on hover */
+        
+        .tech-slide { 
+            width: 200px; display: flex; justify-content: center; align-items: center; 
+            padding: 10px 0;
+        }
+        .tech-tag { 
+            background: var(--bg-white); padding: 12px 24px; border-radius: 50px; 
+            font-weight: 700; border: 1px solid var(--border-color); 
+            transition: var(--transition-smooth); color: var(--text-secondary); 
+            white-space: nowrap;
+        }
+        .tech-tag:hover { transform: scale(1.05); border-color: #0ea5e9; color: #0ea5e9; box-shadow: 0 5px 15px rgba(14, 165, 233, 0.1); }
+        
+        @keyframes scrollTech {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-200px * 14)); } /* Move half the track width */
+        }
+
+        /* =========================================
+           CTA & FOOTER (EXACT SAME)
+           ========================================= */
+        #cta { 
+            padding: 5rem 0; background: var(--grad-dark); text-align: center; 
+            border-radius: 40px; margin: 0 2rem 5rem 2rem; 
+        }
+        #cta h2 { color: white; font-size: 3rem; font-weight: 900; margin-bottom: 1rem; }
+        #cta p { color: #94a3b8; font-size: 1.2rem; margin-bottom: 2rem; }
+
+        footer { background: #0f172a; color: #94a3b8; padding: 5rem 0 2rem 0; }
+        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+        .f-brand p { max-width: 300px; line-height: 1.8; margin: 1.2rem 0; color: #64748b; }
+        .f-social { display: flex; gap: 1rem; }
+        .f-social span { width: 42px; height: 42px; border: 1px solid #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; cursor: pointer; color: #94a3b8; }
+        .f-social span:hover { border-color: #0ea5e9; color: #0ea5e9; background: rgba(14, 165, 233, 0.1); transform: translateY(-3px); }
+        .f-col h4 { color: white; margin-bottom: 1.5rem; font-size: 1.1rem; font-weight: 800; }
+        .f-col ul { list-style: none; }
+        .f-col ul li { margin-bottom: 0.8rem; }
+        .f-col ul li a { transition: color 0.3s; }
+        .f-col ul li a:hover { color: white; transform: translateX(5px); display: inline-block; }
+        
+        .news-box { 
+            background: rgba(255,255,255,0.05); padding: 2.5rem; border-radius: 24px; 
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; 
+            border: 1px solid #1e293b; 
+        }
+        .news-box h4 { color: white; font-size: 1.3rem; font-weight: 800; margin-bottom: 0.3rem; }
+        .news-box p { font-size: 0.95rem; color: #64748b; }
+        .news-form { display: flex; gap: 10px; }
+        .news-form input { 
+            padding: 14px 24px; border-radius: 50px; border: 1px solid #1e293b; background: #1e293b; 
+            color: white; width: 280px; outline: none; font-weight: 500; transition: border 0.3s; 
+        }
+        .news-form input:focus { border-color: #0ea5e9; box-shadow: 0 0 15px rgba(14, 165, 233, 0.1); }
+        
+        .f-bottom { border-top: 1px solid #1e293b; padding-top: 2rem; display: flex; justify-content: space-between; font-size: 0.9rem; }
+        .f-links { display: flex; gap: 2rem; }
+        .f-links a:hover { color: white; }
+
+        /* =========================================
+           RESPONSIVE
+           ========================================= */
+        @media (max-width: 1024px) { 
+            .hero-grid, .story-grid { grid-template-columns: 1fr; text-align: center; } 
+            .mv-grid { grid-template-columns: 1fr; }
+            .hero-text p { max-width: 100%; }
+            .hero-buttons { justify-content: center; }
+            .hero-text h1 { font-size: 3.2rem; }
+            #about-hero, #cta { margin: 0 1rem 3rem 1rem; }
+        }
+        @media (max-width: 768px) { 
+            .values-grid, .team-grid { grid-template-columns: 1fr 1fr; } 
+            .timeline-grid { grid-template-columns: 1fr 1fr; } 
+            .f-grid { grid-template-columns: 1fr; } 
+            .nav-links { display: none; }
+            .tech-slider-track { animation: scrollTech 10s linear infinite; }
+        }
+        @media (max-width: 480px) { 
+            .values-grid, .team-grid, .timeline-grid { grid-template-columns: 1fr; } 
+            .hero-text h1 { font-size: 2.5rem; } 
+            .news-box { flex-direction: column; gap: 20px; align-items: stretch; }
+            .news-form { flex-direction: column; }
+            .news-form input { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">Z</div> Zafnex Labs
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#" class="active">About</a>
+                <a href="#">Services</a>
+                <a href="#">Portfolio</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+                <a href="#" class="btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Hero -->
+    <section id="about-hero">
+        <div class="container hero-grid">
+            <div class="hero-text reveal">
+                <div class="top-badge">✦ Premium Software Studio · Est. 2013</div>
+                <h1>
+                    We are <span class="gradient-text-blue">Zafnex</span><br>
+                    <span class="gradient-text-green">Labs</span>
+                </h1>
+                <p>A premium engineering studio driven by passion and innovation. Since 2013, we have been helping ambitious teams build world-class digital products that scale.</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary">Meet the Team →</button>
+                    <button class="btn-outline">▶ Watch showreel</button>
+                </div>
+            </div>
+            <div class="hero-img-wrap reveal" style="transition-delay: 0.2s;">
+                <div class="hero-img-placeholder">
+                    <div class="img-text">Innovating<br>Globally</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Story -->
+    <section id="story">
+        <div class="container story-grid">
+            <div class="story-text reveal">
+                <h4 style="color: #0ea5e9; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Our Story</h4>
+                <h2>Engineering the <span class="gradient-text-green">Future</span> of Software</h2>
+                <p>
+                    Zafnex Labs was born out of a simple idea: great software requires a blend of rigorous engineering and elegant design. 
+                    What started as a small team of developers has grown into a global studio trusted by over 45 enterprise clients.<br><br>
+                    We combine the polish of a world-class design agency with the technical depth of a top engineering firm. 
+                    Every line of code we write, and every pixel we place, is crafted with precision and purpose.
+                </p>
+            </div>
+            <div class="story-img reveal" style="transition-delay: 0.2s;">
+                Building Trust<br>Since 2013
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section id="mission-vision">
+        <div class="container mv-grid">
+            <div class="mv-card reveal" style="background-image: url('https://images.unsplash.com/photo-1552664688-cf412ec27db2?q=80&w=2070&auto=format&fit=crop');">
+                <h3>🚀 Our Mission</h3>
+                <p>To empower ambitious businesses by delivering high-quality, production-grade software solutions that drive growth, enhance user experiences, and solve complex real-world problems.</p>
+            </div>
+            <div class="mv-card reveal" style="transition-delay: 0.2s; background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop');">
+                <h3>🔭 Our Vision</h3>
+                <p>To be the most trusted engineering partner globally, setting the standard for innovation, reliability, and craftsmanship in the software development industry.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Values -->
+    <section id="values">
+        <div class="container">
+            <div class="section-title reveal">
+                <h4 style="color: #a855f7; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Core Values</h4>
+                <h2>What Drives <span class="gradient-text-purple">Us</span></h2>
+                <p>Our values are the foundation of everything we do. They guide our decisions, define our culture, and shape our relationships with clients.</p>
+            </div>
+            <div class="values-grid">
+                <div class="value-card reveal" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop');">
+                    <span class="value-icon">💡</span><h4>Innovation</h4><p>We embrace emerging technologies and creative thinking to build solutions that push boundaries.</p>
+                </div>
+                <div class="value-card reveal" style="transition-delay: 0.1s; background-image: url('https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2064&auto=format&fit=crop');">
+                    <span class="value-icon">✨</span><h4>Quality</h4><p>From code to design, we maintain the highest standards. We don't cut corners; we craft perfection.</p>
+                </div>
+                <div class="value-card reveal" style="transition-delay: 0.2s; background-image: url('https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2069&auto=format&fit=crop');">
+                    <span class="value-icon">🤝</span><h4>Trust</h4><p>We build lasting partnerships based on transparency, honesty, and delivering on our promises.</p>
+                </div>
+                <div class="value-card reveal" style="transition-delay: 0.3s; background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop');">
+                    <span class="value-icon">📈</span><h4>Growth</h4><p>We invest in our people and our skills, ensuring we always evolve alongside the fast-paced tech landscape.</p>
+                </div>
+                <div class="value-card reveal" style="transition-delay: 0.4s; background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=2070&auto=format&fit=crop');">
+                    <span class="value-icon">❤️</span><h4>Support</h4><p>Our relationship doesn't end at launch. We are committed to providing long-term success and partnership.</p>
+                </div>
+                <div class="value-card reveal" style="transition-delay: 0.5s; background-image: url('https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2070&auto=format&fit=crop');">
+                    <span class="value-icon">🔍</span><h4>Transparency</h4><p>Clear communication, fixed timelines, and open channels. You always know where you stand with us.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meet Our Team -->
+    <section id="team">
+        <div class="container">
+            <div class="section-title reveal">
+                <h4 style="color: #0ea5e9; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Leadership</h4>
+                <h2>Meet Our <span class="gradient-text-blue">Team</span></h2>
+                <p>Senior-only team with deep expertise from day one. No juniors on your project—just top-tier talent.</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-card reveal">
+                    <div class="team-avatar">SC</div>
+                    <h4>Sarah Chen</h4>
+                    <p class="role">CTO & Co-Founder</p>
+                    <p class="skills">Full-Stack, AI, Cloud Architecture</p>
+                    <button class="linkedin-btn">in LinkedIn</button>
+                </div>
+                <div class="team-card reveal" style="transition-delay: 0.1s;">
+                    <div class="team-avatar">DO</div>
+                    <h4>David Okafor</h4>
+                    <p class="role">CEO & Co-Founder</p>
+                    <p class="skills">Strategy, Business Dev, Product</p>
+                    <button class="linkedin-btn">in LinkedIn</button>
+                </div>
+                <div class="team-card reveal" style="transition-delay: 0.2s;">
+                    <div class="team-avatar">PN</div>
+                    <h4>Priya Nair</h4>
+                    <p class="role">Head of Design</p>
+                    <p class="skills">UI/UX, Product Design, Research</p>
+                    <button class="linkedin-btn">in LinkedIn</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Timeline -->
+    <section id="timeline">
+        <div class="container">
+            <div class="section-title reveal">
+                <h4 style="color: #10b981; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Our Journey</h4>
+                <h2>Company <span class="gradient-text-green">Timeline</span></h2>
+                <p>Tracking our growth, milestones, and the evolution of Zafnex Labs over the years.</p>
+            </div>
+            <div class="timeline-grid">
+                <div class="timeline-card reveal" style="background-image: url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2064&auto=format&fit=crop');">
+                    <div class="timeline-year">2013</div>
+                    <h4>Founded</h4>
+                    <p>Zafnex Labs was established with a mission to build world-class software for ambitious teams.</p>
+                </div>
+                <div class="timeline-card reveal" style="transition-delay: 0.1s; background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop');">
+                    <div class="timeline-year">250+</div>
+                    <h4>Projects</h4>
+                    <p>Successfully delivered over 250 web, mobile, and enterprise projects globally.</p>
+                </div>
+                <div class="timeline-card reveal" style="transition-delay: 0.2s; background-image: url('https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=2070&auto=format&fit=crop');">
+                    <div class="timeline-year">🏆</div>
+                    <h4>Awards</h4>
+                    <p>Recognized by Awwwards, CSSDA, and FWA for design excellence and engineering innovation.</p>
+                </div>
+                <div class="timeline-card reveal" style="transition-delay: 0.3s; background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop');">
+                    <div class="timeline-year">45+</div>
+                    <h4>Growth</h4>
+                    <p>Expanded to serve 45+ enterprise clients across Fintech, Healthcare, E-commerce, and SaaS.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Infinite Slider -->
+    <section id="tech-stack">
+        <div class="container">
+            <div class="section-title reveal">
+                <h4 style="color: #0ea5e9; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Tech Stack</h4>
+                <h2>Tools We <span class="gradient-text-blue">Master</span></h2>
+                <p>Modern tools, battle-tested at scale. We pick the right tool for the job—never chasing trends.</p>
+            </div>
+            
+            <div class="tech-slider-track">
+                <!-- 14 Unique Logos -->
+                <div class="tech-slide"><span class="tech-tag">React</span></div>
+                <div class="tech-slide"><span class="tech-tag">Next.js</span></div>
+                <div class="tech-slide"><span class="tech-tag">TypeScript</span></div>
+                <div class="tech-slide"><span class="tech-tag">Node.js</span></div>
+                <div class="tech-slide"><span class="tech-tag">Python</span></div>
+                <div class="tech-slide"><span class="tech-tag">Go</span></div>
+                <div class="tech-slide"><span class="tech-tag">PostgreSQL</span></div>
+                <div class="tech-slide"><span class="tech-tag">AWS</span></div>
+                <div class="tech-slide"><span class="tech-tag">Azure</span></div>
+                <div class="tech-slide"><span class="tech-tag">Kubernetes</span></div>
+                <div class="tech-slide"><span class="tech-tag">Terraform</span></div>
+                <div class="tech-slide"><span class="tech-tag">Rust</span></div>
+                <div class="tech-slide"><span class="tech-tag">Flutter</span></div>
+                <div class="tech-slide"><span class="tech-tag">Swift</span></div>
+                
+                <!-- Duplicates for Infinite Loop -->
+                <div class="tech-slide"><span class="tech-tag">React</span></div>
+                <div class="tech-slide"><span class="tech-tag">Next.js</span></div>
+                <div class="tech-slide"><span class="tech-tag">TypeScript</span></div>
+                <div class="tech-slide"><span class="tech-tag">Node.js</span></div>
+                <div class="tech-slide"><span class="tech-tag">Python</span></div>
+                <div class="tech-slide"><span class="tech-tag">Go</span></div>
+                <div class="tech-slide"><span class="tech-tag">PostgreSQL</span></div>
+                <div class="tech-slide"><span class="tech-tag">AWS</span></div>
+                <div class="tech-slide"><span class="tech-tag">Azure</span></div>
+                <div class="tech-slide"><span class="tech-tag">Kubernetes</span></div>
+                <div class="tech-slide"><span class="tech-tag">Terraform</span></div>
+                <div class="tech-slide"><span class="tech-tag">Rust</span></div>
+                <div class="tech-slide"><span class="tech-tag">Flutter</span></div>
+                <div class="tech-slide"><span class="tech-tag">Swift</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="cta" class="reveal">
+        <div class="container">
+            <h2>Ready to Build Something <span class="gradient-text-blue">Amazing</span>?</h2>
+            <p>Let's discuss your project and see how Zafnex Labs can bring your vision to life.</p>
+            <a href="#" class="btn-primary" style="box-shadow: 0 4px 20px rgba(0,0,0,0.2);">Start a Project →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="f-grid">
+                <div class="f-brand">
+                    <div class="logo" style="color: white;">
+                        <div class="logo-icon">Z</div> Zafnex Labs
+                    </div>
+                    <p>Engineering premium software experiences for ambitious teams worldwide.</p>
+                    <div class="f-social">
+                        <span>𝕏</span> <span>in</span> <span>✉️</span>
+                    </div>
+                </div>
+                <div class="f-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Mobile Apps</a></li>
+                        <li><a href="#">ERP Solutions</a></li>
+                        <li><a href="#">AI Solutions</a></li>
+                    </ul>
+                </div>
+                <div class="f-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="#">Portfolio</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="f-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Case Studies</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="news-box">
+                <div>
+                    <h4>Subscribe to our newsletter</h4>
+                    <p>Product insights and industry trends. No spam.</p>
+                </div>
+                <div class="news-form">
+                    <input type="email" placeholder="you@company.com">
+                    <button class="btn-primary">Subscribe →</button>
+                </div>
+            </div>
+
+            <div class="f-bottom">
+                <span>© 2026 Zafnex Labs. All rights reserved.</span>
+                <div class="f-links">
+                    <a href="#">Privacy</a> <a href="#">Terms</a> <a href="#">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- =========================================
+         JAVASCRIPT (SCROLL ANIMATIONS & THEME TOGGLE)
+         ========================================= -->
+    <script>
+        // --- SCROLL ANIMATION ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const reveals = document.querySelectorAll('.reveal');
+            const windowHeight = window.innerHeight;
+            
+            const revealOnScroll = () => {
+                const elementVisible = 150;
+                
+                reveals.forEach((reveal) => {
+                    const rect = reveal.getBoundingClientRect();
+                    if (rect.top < windowHeight - elementVisible) {
+                        reveal.classList.add('active');
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
+        });
+
+        // --- THEME TOGGLE LOGIC ---
+        const themeToggle = document.getElementById('themeToggle');
+        
+        // Check for saved theme preference
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateToggleIcon(currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            let theme = document.documentElement.getAttribute('data-theme');
+            let newTheme = theme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateToggleIcon(newTheme);
+        });
+
+        function updateToggleIcon(theme) {
+            themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Zafnex Labs</title>
+    
+    <!-- Advanced Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           EXACT SAME VARIABLES AS HOME PAGE
+           ========================================= */
+        :root {
+            /* BRIGHT NEON GRADIENTS */
+            --grad-blue: linear-gradient(135deg, #0ea5e9, #00e5ff); 
+            --grad-purple: linear-gradient(135deg, #a855f7, #d946ef); 
+            --grad-green: linear-gradient(135deg, #22c55e, #00f260); 
+            --grad-orange: linear-gradient(135deg, #f97316, #f59e0b); 
+            --grad-dark: linear-gradient(145deg, #0f172a, #1e293b);
+            
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* --- LIGHT MODE VARIABLES --- */
+        :root, [data-theme="light"] {
+            --bg-main: #f4f7fc;
+            --bg-white: #ffffff;
+            --bg-card-alt: #f8fafc;
+            --text-primary: #020617;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-card: 0 4px 20px rgba(0,0,0,0.02);
+            --shadow-hover: 0 20px 40px rgba(0,0,0,0.06);
+            --badge-bg: rgba(255,255,255,0.8);
+            --badge-border: rgba(255,255,255,0.4);
+            --nav-bg: rgba(255, 255, 255, 0.15);
+            --nav-border: rgba(255, 255, 255, 0.4);
+            --hero-bg: radial-gradient(circle at 10% 20%, #dbeafe 0%, #f0fdfa 60%, var(--bg-main) 100%);
+        }
+
+        /* --- DARK MODE VARIABLES --- */
+        [data-theme="dark"] {
+            --bg-main: #0b1120;
+            --bg-white: #111827;
+            --bg-card-alt: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #1e293b;
+            --shadow-card: 0 4px 20px rgba(0,0,0,0.3);
+            --shadow-hover: 0 20px 40px rgba(0,0,0,0.5);
+            --badge-bg: rgba(15, 23, 42, 0.9);
+            --badge-border: rgba(255,255,255,0.1);
+            --nav-bg: rgba(15, 23, 42, 0.8);
+            --nav-border: rgba(255,255,255,0.1);
+            --hero-bg: radial-gradient(circle at 10% 20%, #0f172a 0%, #0b1120 100%);
+        }
+
+        /* --- RESET --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-main); 
+            color: var(--text-primary); 
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+
+        /* --- UTILITIES & ANIMATIONS --- */
+        .gradient-text-blue { background: var(--grad-blue); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .gradient-text-green { background: var(--grad-green); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .gradient-text-purple { background: var(--grad-purple); background-clip: text; -webkit-background-clip: text; color: transparent; }
+
+        .btn-primary {
+            background: var(--grad-blue);
+            color: white; padding: 14px 32px; border-radius: 50px; font-weight: 700; font-size: 1rem;
+            border: none; cursor: pointer; transition: var(--transition-smooth);
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.4); text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 30px rgba(0, 229, 255, 0.6); }
+        
+        .btn-outline {
+            background: var(--badge-bg); backdrop-filter: blur(10px);
+            color: var(--text-primary); padding: 14px 32px; border-radius: 50px; font-weight: 700; font-size: 1rem;
+            border: 1px solid var(--border-color); cursor: pointer; transition: var(--transition-smooth);
+        }
+        .btn-outline:hover { background: var(--bg-white); border-color: var(--text-primary); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+
+        /* Fade & Slide Up Animation */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        .section-title { text-align: center; margin-bottom: 4rem; }
+        .section-title h2 { font-size: 3rem; font-weight: 900; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 1rem; }
+        .section-title p { color: var(--text-secondary); font-size: 1.15rem; font-weight: 400; }
+
+        /* --- TOGGLE BUTTON --- */
+        .theme-toggle {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--badge-bg); border: 1px solid var(--border-color);
+            color: var(--text-primary); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition-smooth); font-size: 1.2rem;
+        }
+        .theme-toggle:hover { transform: scale(1.05); background: var(--bg-white); }
+
+        /* --- NAVBAR --- */
+        nav { position: sticky; top: 20px; z-index: 100; max-width: 1280px; margin: 0 auto 2rem auto; padding: 0 2rem; transform: translateY(20px); }
+        .nav-inner { 
+            background: var(--nav-bg); backdrop-filter: blur(16px); 
+            border: 1px solid var(--nav-border); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); 
+            border-radius: 100px; padding: 0.9rem 2.5rem; display: flex; justify-content: space-between; align-items: center; 
+        }
+        .logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.3rem; color: var(--text-primary); }
+        .logo-icon { width: 38px; height: 38px; border-radius: 50%; background: var(--grad-blue); display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3); }
+        .nav-links { display: flex; gap: 2.5rem; align-items: center; font-weight: 700; font-size: 0.95rem; color: var(--text-secondary); }
+        .nav-links a { position: relative; padding: 4px 0; transition: all 0.3s; }
+        .nav-links a:hover { color: #0ea5e9; }
+        .nav-links a.active { color: #0ea5e9; }
+        .nav-links a.active::after { content: ''; position: absolute; width: 100%; height: 3px; background: var(--grad-blue); border-radius: 10px; bottom: -6px; left: 0; }
+        .nav-actions { display: flex; align-items: center; gap: 12px; }
+
+        /* =========================================
+           CONTACT HERO BANNER
+           ========================================= */
+        #contact-hero { 
+            padding: 4rem 0; 
+            background: var(--hero-bg); 
+            border-radius: 40px; margin: 0 2rem 5rem 2rem; 
+        }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; padding: 2rem 2rem 0 2rem; }
+        
+        .hero-text .top-badge { 
+            display: inline-flex; align-items: center; gap: 8px; 
+            background: var(--badge-bg); backdrop-filter: blur(8px);
+            padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; font-weight: 700; color: var(--text-primary);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.03); margin-bottom: 2.5rem; 
+            border: 1px solid var(--border-color);
+        }
+        .hero-text h1 { 
+            font-size: 4.5rem; line-height: 1.05; font-weight: 900; 
+            letter-spacing: -0.02em; margin-bottom: 1.8rem; text-shadow: 0 0 40px rgba(14, 165, 233, 0.05);
+        }
+        .hero-text p { color: var(--text-secondary); font-size: 1.2rem; font-weight: 500; line-height: 1.7; margin-bottom: 3rem; max-width: 90%; }
+        .hero-buttons { display: flex; gap: 1.2rem; margin-bottom: 3rem; }
+
+        /* Hero Image */
+        .hero-img-wrap { position: relative; padding-bottom: 2rem; }
+        .hero-img-placeholder { 
+            width: 100%; height: 480px; border-radius: 30px; 
+            background: radial-gradient(circle at center, #00e5ff 10%, #0f172a 80%); 
+            display: flex; align-items: center; justify-content: center; 
+            overflow: hidden; position: relative; box-shadow: 0 30px 60px rgba(0, 229, 255, 0.2); 
+        }
+        .img-text { color: white; font-size: 4rem; font-weight: 900; z-index: 10; text-align: center; line-height: 1.2; text-shadow: 0 0 50px rgba(0, 229, 255, 0.4); letter-spacing: -0.02em; }
+
+        /* =========================================
+           CONTACT CARDS
+           ========================================= */
+        #contact-cards { padding: 4rem 0; background: var(--bg-white); }
+        .contact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+        .contact-card { 
+            background: var(--bg-main); padding: 2rem; border-radius: 24px; 
+            border: 1px solid var(--border-color); text-align: center; transition: var(--transition-smooth);
+            box-shadow: var(--shadow-card);
+        }
+        .contact-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); border-color: #0ea5e9; }
+        .contact-icon { 
+            width: 60px; height: 60px; border-radius: 16px; background: var(--grad-blue); 
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem auto;
+            color: white; font-size: 1.5rem; font-weight: 900; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.2);
+        }
+        .contact-card h4 { font-size: 1.1rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .contact-card p { color: var(--text-secondary); line-height: 1.6; }
+        .contact-card p strong { color: var(--text-primary); }
+
+        /* =========================================
+           CONTACT FORM
+           ========================================= */
+        #contact-form-section { padding: 5rem 0; background: var(--bg-main); }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+        .form-left h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem; }
+        .form-left p { color: var(--text-secondary); font-size: 1.1rem; line-height: 1.7; margin-bottom: 2rem; }
+        
+        .contact-form { background: var(--bg-white); padding: 2.5rem; border-radius: 24px; border: 1px solid var(--border-color); box-shadow: var(--shadow-card); }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-primary); }
+        .form-group input, .form-group select, .form-group textarea { 
+            width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border-color);
+            background: var(--bg-main); color: var(--text-primary); font-family: 'Inter', sans-serif;
+            transition: border 0.3s; font-size: 0.95rem; outline: none;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { 
+            border-color: #0ea5e9; box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+        .form-group textarea { resize: vertical; min-height: 120px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .submit-btn { 
+            width: 100%; background: var(--grad-blue); color: white; padding: 14px; border-radius: 50px; 
+            font-weight: 700; font-size: 1rem; border: none; cursor: pointer; transition: var(--transition-smooth);
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.3); text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .submit-btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 30px rgba(0, 229, 255, 0.6); }
+
+        /* =========================================
+           GOOGLE MAP
+           ========================================= */
+        #map-section { padding: 5rem 0; background: var(--bg-white); }
+        .map-container { 
+            border-radius: 24px; overflow: hidden; border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-card); height: 400px;
+        }
+        .map-container iframe { width: 100%; height: 100%; border: 0; }
+
+        /* =========================================
+           FAQ ACCORDION
+           ========================================= */
+        #faq { padding: 5rem 0; background: var(--bg-main); }
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { 
+            background: var(--bg-white); border-radius: 16px; border: 1px solid var(--border-color);
+            margin-bottom: 1rem; overflow: hidden; transition: var(--transition-smooth);
+            box-shadow: var(--shadow-card);
+        }
+        .faq-item:hover { border-color: #0ea5e9; }
+        .faq-question { 
+            padding: 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            font-weight: 700; font-size: 1.1rem; transition: var(--transition-smooth);
+        }
+        .faq-question:hover { color: #0ea5e9; }
+        .faq-icon { transition: transform 0.3s ease; font-size: 1.5rem; }
+        .faq-item.active .faq-icon { transform: rotate(45deg); }
+        .faq-answer { 
+            max-height: 0; overflow: hidden; transition: max-height 0.4s ease; 
+            padding: 0 1.5rem; color: var(--text-secondary); line-height: 1.7;
+        }
+        .faq-item.active .faq-answer { max-height: 200px; padding: 0 1.5rem 1.5rem 1.5rem; }
+
+        /* =========================================
+           CTA & FOOTER
+           ========================================= */
+        #cta { 
+            padding: 5rem 0; background: var(--grad-dark); text-align: center; 
+            border-radius: 40px; margin: 0 2rem 5rem 2rem; 
+        }
+        #cta h2 { color: white; font-size: 3rem; font-weight: 900; margin-bottom: 1rem; }
+        #cta p { color: #94a3b8; font-size: 1.2rem; margin-bottom: 2rem; }
+
+        footer { background: #0f172a; color: #94a3b8; padding: 5rem 0 2rem 0; }
+        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+        .f-brand p { max-width: 300px; line-height: 1.8; margin: 1.2rem 0; color: #64748b; }
+        .f-social { display: flex; gap: 1rem; }
+        .f-social span { width: 42px; height: 42px; border: 1px solid #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; cursor: pointer; color: #94a3b8; }
+        .f-social span:hover { border-color: #0ea5e9; color: #0ea5e9; background: rgba(14, 165, 233, 0.1); transform: translateY(-3px); }
+        .f-col h4 { color: white; margin-bottom: 1.5rem; font-size: 1.1rem; font-weight: 800; }
+        .f-col ul { list-style: none; }
+        .f-col ul li { margin-bottom: 0.8rem; }
+        .f-col ul li a { transition: color 0.3s; }
+        .f-col ul li a:hover { color: white; transform: translateX(5px); display: inline-block; }
+        
+        .news-box { 
+            background: rgba(255,255,255,0.05); padding: 2.5rem; border-radius: 24px; 
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; 
+            border: 1px solid #1e293b; 
+        }
+        .news-box h4 { color: white; font-size: 1.3rem; font-weight: 800; margin-bottom: 0.3rem; }
+        .news-box p { font-size: 0.95rem; color: #64748b; }
+        .news-form { display: flex; gap: 10px; }
+        .news-form input { 
+            padding: 14px 24px; border-radius: 50px; border: 1px solid #1e293b; background: #1e293b; 
+            color: white; width: 280px; outline: none; font-weight: 500; transition: border 0.3s; 
+        }
+        .news-form input:focus { border-color: #0ea5e9; box-shadow: 0 0 15px rgba(14, 165, 233, 0.1); }
+        
+        .f-bottom { border-top: 1px solid #1e293b; padding-top: 2rem; display: flex; justify-content: space-between; font-size: 0.9rem; }
+        .f-links { display: flex; gap: 2rem; }
+        .f-links a:hover { color: white; }
+
+        /* =========================================
+           RESPONSIVE
+           ========================================= */
+        @media (max-width: 1024px) { 
+            .hero-grid { grid-template-columns: 1fr; text-align: center; } 
+            .hero-text p { max-width: 100%; }
+            .hero-buttons { justify-content: center; }
+            .hero-text h1 { font-size: 3.2rem; }
+            #contact-hero, #cta { margin: 0 1rem 3rem 1rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) { 
+            .contact-grid { grid-template-columns: 1fr 1fr; } 
+            .form-row { grid-template-columns: 1fr; }
+            .f-grid { grid-template-columns: 1fr; } 
+            .nav-links { display: none; }
+        }
+        @media (max-width: 480px) { 
+            .contact-grid { grid-template-columns: 1fr; }
+            .hero-text h1 { font-size: 2.5rem; } 
+            .news-box { flex-direction: column; gap: 20px; align-items: stretch; }
+            .news-form { flex-direction: column; }
+            .news-form input { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">Z</div> Zafnex Labs
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="services.html">Services</a>
+                <a href="portfolio.html">Portfolio</a>
+                <a href="#" class="active">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+                <a href="#" class="btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Hero Banner -->
+    <section id="contact-hero">
+        <div class="container hero-grid">
+            <div class="hero-text reveal">
+                <div class="top-badge">✦ Let's Connect</div>
+                <h1>
+                    Ready to Start Your <span class="gradient-text-blue">Next</span><br>
+                    <span class="gradient-text-green">Project</span>?
+                </h1>
+                <p>Have a project in mind? We'd love to hear about it. Reach out to us and let's discuss how Zafnex Labs can help bring your vision to life.</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary">Contact Us →</button>
+                    <button class="btn-outline">▶ Watch showreel</button>
+                </div>
+            </div>
+            <div class="hero-img-wrap reveal" style="transition-delay: 0.2s;">
+                <div class="hero-img-placeholder">
+                    <div class="img-text">Let's<br>Connect</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Cards -->
+    <section id="contact-cards">
+        <div class="container">
+            <div class="section-title reveal">
+                <h4 style="color: #0ea5e9; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Get in Touch</h4>
+                <h2>Contact <span class="gradient-text-blue">Information</span></h2>
+                <p>We're here to help. Reach out to us through any of the channels below.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-card reveal">
+                    <div class="contact-icon">📞</div>
+                    <h4>Phone</h4>
+                    <p><strong>+1 (555) 123-4567</strong><br>Mon-Fri, 9am - 6pm EST</p>
+                </div>
+                <div class="contact-card reveal" style="transition-delay: 0.1s;">
+                    <div class="contact-icon">✉️</div>
+                    <h4>Email</h4>
+                    <p><strong>hello@zafnexlabs.com</strong><br>We reply within 24 hours</p>
+                </div>
+                <div class="contact-card reveal" style="transition-delay: 0.2s;">
+                    <div class="contact-icon">📍</div>
+                    <h4>Office</h4>
+                    <p><strong>123 Tech Park Drive<br>Silicon Valley, CA 94025</strong></p>
+                </div>
+                <div class="contact-card reveal" style="transition-delay: 0.3s;">
+                    <div class="contact-icon">⏰</div>
+                    <h4>Working Hours</h4>
+                    <p><strong>Mon - Fri: 9:00 AM - 6:00 PM<br>Sat: 10:00 AM - 2:00 PM</strong></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact-form-section">
+        <div class="container form-grid">
+            <div class="form-left reveal">
+                <h4 style="color: #0ea5e9; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Get Started</h4>
+                <h2>Tell Us About Your <span class="gradient-text-purple">Project</span></h2>
+                <p>Fill out the form and our team will reach out to you within 24 hours. We'll discuss your requirements, provide a timeline estimate, and offer a transparent quote.</p>
+                <div style="background: var(--bg-white); padding: 1.5rem; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: var(--shadow-card);">
+                    <h4 style="font-weight: 800; margin-bottom: 0.5rem;">✨ Why Choose Zafnex?</h4>
+                    <ul style="list-style: none; color: var(--text-secondary); line-height: 2;">
+                        <li>✓ Fixed timelines & transparent pricing</li>
+                        <li>✓ Weekly demos & real-time Slack access</li>
+                        <li>✓ Full IP ownership, no lock-in</li>
+                        <li>✓ Senior-only team with deep expertise</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="contact-form reveal" style="transition-delay: 0.2s;">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Your Name *</label>
+                            <input type="text" id="name" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" placeholder="john@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" placeholder="+1 (555) 123-4567">
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company</label>
+                            <input type="text" id="company" placeholder="Your Company Name">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="service">Service Interested In</label>
+                            <select id="service">
+                                <option value="">Select a service...</option>
+                                <option value="web">Web Development</option>
+                                <option value="mobile">Mobile App Development</option>
+                                <option value="erp">ERP Solutions</option>
+                                <option value="ai">AI Development</option>
+                                <option value="ui">UI/UX Design</option>
+                                <option value="ecommerce">E-commerce</option>
+                                <option value="cloud">Cloud Deployment</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="budget">Budget Range</label>
+                            <select id="budget">
+                                <option value="">Select your budget...</option>
+                                <option value="10-25k">$10,000 - $25,000</option>
+                                <option value="25-50k">$25,000 - $50,000</option>
+                                <option value="50-100k">$50,000 - $100,000</option>
+                                <option value="100k+">$100,000+</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message *</label>
+                        <textarea id="message" placeholder="Tell us about your project, goals, and requirements..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message →</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Google Map -->
+    <section id="map-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h4 style="color: #10b981; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Our Location</h4>
+                <h2>Find Us On The <span class="gradient-text-green">Map</span></h2>
+                <p>Visit our headquarters in the heart of Silicon Valley.</p>
+            </div>
+            <div class="map-container reveal">
+                <!-- Embedded Google Map (Silicon Valley, CA) -->
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50616.967952543535!2d-122.0838544088848!3d37.38750436953442!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb6fce6d2ea5d%3A0x8d4b74f234cf704d!2sSilicon%20Valley%2C%20CA%2C%20USA!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Accordion -->
+    <section id="faq">
+        <div class="container">
+            <div class="section-title reveal">
+                <h4 style="color: #0ea5e9; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">FAQ</h4>
+                <h2>Frequently Asked <span class="gradient-text-blue">Questions</span></h2>
+                <p>Quick answers to the most common questions we receive.</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item reveal">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        How quickly will you respond to my inquiry?
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">We typically reply to all inquiries within 24 hours during business days. For urgent matters, feel free to call us directly.</div>
+                </div>
+                <div class="faq-item reveal" style="transition-delay: 0.1s;">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Do you offer free consultations?
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">Yes! We offer a complimentary 30-minute discovery call to understand your project, provide initial guidance, and discuss how we can help.</div>
+                </div>
+                <div class="faq-item reveal" style="transition-delay: 0.2s;">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        What information should I include in my message?
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">Please include a brief description of your project, your goals, timeline expectations, and any specific requirements. The more details, the better!</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="cta" class="reveal">
+        <div class="container">
+            <h2>Ready to Build Something <span class="gradient-text-blue">Amazing</span>?</h2>
+            <p>Let's discuss your requirements and see how Zafnex Labs can bring your vision to life.</p>
+            <a href="#" class="btn-primary" style="box-shadow: 0 4px 20px rgba(0,0,0,0.2);">Start a Project →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="f-grid">
+                <div class="f-brand">
+                    <div class="logo" style="color: white;">
+                        <div class="logo-icon">Z</div> Zafnex Labs
+                    </div>
+                    <p>Engineering premium software experiences for ambitious teams worldwide.</p>
+                    <div class="f-social">
+                        <span>𝕏</span> <span>in</span> <span>✉️</span>
+                    </div>
+                </div>
+                <div class="f-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Mobile Apps</a></li>
+                        <li><a href="#">ERP Solutions</a></li>
+                        <li><a href="#">AI Solutions</a></li>
+                    </ul>
+                </div>
+                <div class="f-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="f-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Case Studies</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="news-box">
+                <div>
+                    <h4>Subscribe to our newsletter</h4>
+                    <p>Product insights and industry trends. No spam.</p>
+                </div>
+                <div class="news-form">
+                    <input type="email" placeholder="you@company.com">
+                    <button class="btn-primary">Subscribe →</button>
+                </div>
+            </div>
+
+            <div class="f-bottom">
+                <span>© 2026 Zafnex Labs. All rights reserved.</span>
+                <div class="f-links">
+                    <a href="#">Privacy</a> <a href="#">Terms</a> <a href="#">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- =========================================
+         JAVASCRIPT
+         ========================================= -->
+    <script>
+        // --- SCROLL ANIMATION ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const reveals = document.querySelectorAll('.reveal');
+            const windowHeight = window.innerHeight;
+            
+            const revealOnScroll = () => {
+                const elementVisible = 150;
+                
+                reveals.forEach((reveal) => {
+                    const rect = reveal.getBoundingClientRect();
+                    if (rect.top < windowHeight - elementVisible) {
+                        reveal.classList.add('active');
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
+        });
+
+        // --- THEME TOGGLE LOGIC ---
+        const themeToggle = document.getElementById('themeToggle');
+        
+        // Check for saved theme preference
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateToggleIcon(currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            let theme = document.documentElement.getAttribute('data-theme');
+            let newTheme = theme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateToggleIcon(newTheme);
+        });
+
+        function updateToggleIcon(theme) {
+            themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+
+        // --- FAQ ACCORDION ---
+        function toggleFAQ(element) {
+            const item = element.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // Close all open items
+            document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+            
+            // If it wasn't active, open it
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+    </script>
+
+</body>
+</html>`

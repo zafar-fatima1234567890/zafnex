@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Zafnex Labs</title>
+    
+    <!-- Advanced Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           EXACT SAME VARIABLES AS HOME PAGE
+           ========================================= */
+        :root {
+            /* BRIGHT NEON GRADIENTS */
+            --grad-blue: linear-gradient(135deg, #0ea5e9, #00e5ff); 
+            --grad-purple: linear-gradient(135deg, #a855f7, #d946ef); 
+            --grad-green: linear-gradient(135deg, #22c55e, #00f260); 
+            --grad-orange: linear-gradient(135deg, #f97316, #f59e0b); 
+            --grad-dark: linear-gradient(145deg, #0f172a, #1e293b);
+            
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* --- LIGHT MODE VARIABLES --- */
+        :root, [data-theme="light"] {
+            --bg-main: #f4f7fc;
+            --bg-white: #ffffff;
+            --bg-card-alt: #f8fafc;
+            --text-primary: #020617;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-card: 0 4px 20px rgba(0,0,0,0.02);
+            --shadow-hover: 0 20px 40px rgba(0,0,0,0.06);
+            --badge-bg: rgba(255,255,255,0.8);
+            --badge-border: rgba(255,255,255,0.4);
+            --nav-bg: rgba(255, 255, 255, 0.15);
+            --nav-border: rgba(255, 255, 255, 0.4);
+            --hero-bg: radial-gradient(circle at 10% 20%, #dbeafe 0%, #f0fdfa 60%, var(--bg-main) 100%);
+        }
+
+        /* --- DARK MODE VARIABLES --- */
+        [data-theme="dark"] {
+            --bg-main: #0b1120;
+            --bg-white: #111827;
+            --bg-card-alt: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #1e293b;
+            --shadow-card: 0 4px 20px rgba(0,0,0,0.3);
+            --shadow-hover: 0 20px 40px rgba(0,0,0,0.5);
+            --badge-bg: rgba(15, 23, 42, 0.9);
+            --badge-border: rgba(255,255,255,0.1);
+            --nav-bg: rgba(15, 23, 42, 0.8);
+            --nav-border: rgba(255,255,255,0.1);
+            --hero-bg: radial-gradient(circle at 10% 20%, #0f172a 0%, #0b1120 100%);
+        }
+
+        /* --- RESET --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-main); 
+            color: var(--text-primary); 
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+
+        /* --- UTILITIES & ANIMATIONS --- */
+        .gradient-text-blue { background: var(--grad-blue); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .gradient-text-green { background: var(--grad-green); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .gradient-text-purple { background: var(--grad-purple); background-clip: text; -webkit-background-clip: text; color: transparent; }
+
+        .btn-primary {
+            background: var(--grad-blue);
+            color: white; padding: 14px 32px; border-radius: 50px; font-weight: 700; font-size: 1rem;
+            border: none; cursor: pointer; transition: var(--transition-smooth);
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.4); text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 30px rgba(0, 229, 255, 0.6); }
+        
+        .btn-outline {
+            background: var(--badge-bg); backdrop-filter: blur(10px);
+            color: var(--text-primary); padding: 14px 32px; border-radius: 50px; font-weight: 700; font-size: 1rem;
+            border: 1px solid var(--border-color); cursor: pointer; transition: var(--transition-smooth);
+        }
+        .btn-outline:hover { background: var(--bg-white); border-color: var(--text-primary); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+
+        /* Fade & Slide Up Animation */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        .section-title { text-align: center; margin-bottom: 4rem; }
+        .section-title h2 { font-size: 3rem; font-weight: 900; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 1rem; }
+        .section-title p { color: var(--text-secondary); font-size: 1.15rem; font-weight: 400; }
+
+        /* --- TOGGLE BUTTON --- */
+        .theme-toggle {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--badge-bg); border: 1px solid var(--border-color);
+            color: var(--text-primary); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition-smooth); font-size: 1.2rem;
+        }
+        .theme-toggle:hover { transform: scale(1.05); background: var(--bg-white); }
+
+        /* --- NAVBAR --- */
+        nav { position: sticky; top: 20px; z-index: 100; max-width: 1280px; margin: 0 auto 2rem auto; padding: 0 2rem; transform: translateY(20px); }
+        .nav-inner { 
+            background: var(--nav-bg); backdrop-filter: blur(16px); 
+            border: 1px solid var(--nav-border); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); 
+            border-radius: 100px; padding: 0.9rem 2.5rem; display: flex; justify-content: space-between; align-items: center; 
+        }
+        .logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.3rem; color: var(--text-primary); }
+        .logo-icon { width: 38px; height: 38px; border-radius: 50%; background: var(--grad-blue); display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3); }
+        .nav-links { display: flex; gap: 2.5rem; align-items: center; font-weight: 700; font-size: 0.95rem; color: var(--text-secondary); }
+        .nav-links a { position: relative; padding: 4px 0; transition: all 0.3s; }
+        .nav-links a:hover { color: #0ea5e9; }
+        .nav-links a.active { color: #0ea5e9; }
+        .nav-links a.active::after { content: ''; position: absolute; width: 100%; height: 3px; background: var(--grad-blue); border-radius: 10px; bottom: -6px; left: 0; }
+        .nav-actions { display: flex; align-items: center; gap: 12px; }
+
+        /* =========================================
+           PORTFOLIO HERO BANNER
+           ========================================= */
+        #portfolio-hero { 
+            padding: 4rem 0; 
+            background: var(--hero-bg); 
+            border-radius: 40px; margin: 0 2rem 5rem 2rem; 
+        }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; padding: 2rem 2rem 0 2rem; }
+        
+        .hero-text .top-badge { 
+            display: inline-flex; align-items: center; gap: 8px; 
+            background: var(--badge-bg); backdrop-filter: blur(8px);
+            padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; font-weight: 700; color: var(--text-primary);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.03); margin-bottom: 2.5rem; 
+            border: 1px solid var(--border-color);
+        }
+        .hero-text h1 { 
+            font-size: 4.5rem; line-height: 1.05; font-weight: 900; 
+            letter-spacing: -0.02em; margin-bottom: 1.8rem; text-shadow: 0 0 40px rgba(14, 165, 233, 0.05);
+        }
+        .hero-text p { color: var(--text-secondary); font-size: 1.2rem; font-weight: 500; line-height: 1.7; margin-bottom: 3rem; max-width: 90%; }
+        .hero-buttons { display: flex; gap: 1.2rem; margin-bottom: 3rem; }
+
+        /* Hero Image */
+        .hero-img-wrap { position: relative; padding-bottom: 2rem; }
+        .hero-img-placeholder { 
+            width: 100%; height: 480px; border-radius: 30px; 
+            background: radial-gradient(circle at center, #00e5ff 10%, #0f172a 80%); 
+            display: flex; align-items: center; justify-content: center; 
+            overflow: hidden; position: relative; box-shadow: 0 30px 60px rgba(0, 229, 255, 0.2); 
+        }
+        .img-text { color: white; font-size: 4rem; font-weight: 900; z-index: 10; text-align: center; line-height: 1.2; text-shadow: 0 0 50px rgba(0, 229, 255, 0.4); letter-spacing: -0.02em; }
+
+        /* =========================================
+           PROJECT FILTER
+           ========================================= */
+        #filter { padding: 2rem 0; background: var(--bg-white); border-bottom: 1px solid var(--border-color); margin-bottom: 5rem; }
+        .filter-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; }
+        .filter-btn { 
+            background: var(--bg-card-alt); padding: 10px 24px; border-radius: 50px; 
+            border: 1px solid var(--border-color); font-weight: 600; color: var(--text-secondary);
+            cursor: pointer; transition: var(--transition-smooth); font-size: 0.95rem;
+        }
+        .filter-btn:hover { background: var(--bg-white); border-color: #0ea5e9; color: #0ea5e9; }
+        .filter-btn.active { background: var(--grad-blue); color: white; border-color: transparent; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3); }
+
+        /* =========================================
+           PORTFOLIO GRID
+           ========================================= */
+        #portfolio-grid { padding: 0 0 5rem 0; background: var(--bg-main); }
+        .portfolio-grid-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+        .portfolio-item { 
+            background: var(--bg-white); border-radius: 24px; overflow: hidden; 
+            border: 1px solid var(--border-color); transition: var(--transition-smooth);
+            box-shadow: var(--shadow-card); position: relative;
+        }
+        .portfolio-item:hover { transform: translateY(-10px); box-shadow: var(--shadow-hover); border-color: #0ea5e9; }
+        
+        .portfolio-img { width: 100%; height: 280px; object-fit: cover; display: block; }
+        .portfolio-content { padding: 1.5rem; }
+        .portfolio-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+        .portfolio-tags span { 
+            background: var(--bg-card-alt); padding: 4px 14px; border-radius: 50px; 
+            font-size: 0.75rem; font-weight: 600; color: var(--text-muted);
+            border: 1px solid var(--border-color);
+        }
+        .portfolio-content h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .portfolio-content p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; }
+        
+        .portfolio-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn-demo { background: var(--grad-blue); color: white; padding: 8px 20px; border-radius: 50px; font-weight: 600; font-size: 0.85rem; border: none; cursor: pointer; transition: var(--transition-smooth); }
+        .btn-demo:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3); }
+        .btn-details { background: var(--bg-card-alt); color: var(--text-primary); padding: 8px 20px; border-radius: 50px; font-weight: 600; font-size: 0.85rem; border: 1px solid var(--border-color); cursor: pointer; transition: var(--transition-smooth); }
+        .btn-details:hover { background: var(--bg-white); border-color: #0ea5e9; }
+
+        /* =========================================
+           CASE STUDIES
+           ========================================= */
+        #case-studies { padding: 5rem 0; background: var(--bg-white); }
+        .case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+        .case-card { 
+            background: var(--bg-main); border-radius: 24px; padding: 2.5rem; 
+            border: 1px solid var(--border-color); transition: var(--transition-smooth);
+            box-shadow: var(--shadow-card);
+        }
+        .case-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); border-color: #0ea5e9; }
+        .case-card h3 { font-size: 1.6rem; font-weight: 800; margin-bottom: 1.5rem; color: #0ea5e9; }
+        .case-card h4 { font-size: 1.1rem; font-weight: 700; margin: 1rem 0 0.5rem 0; }
+        .case-card p { color: var(--text-secondary); line-height: 1.7; }
+        .case-screenshots { display: flex; gap: 1rem; margin: 1rem 0; flex-wrap: wrap; }
+        .case-screenshots img { width: calc(33.333% - 0.7rem); border-radius: 12px; border: 1px solid var(--border-color); height: 120px; object-fit: cover; }
+        .case-review { 
+            background: var(--bg-white); padding: 1.5rem; border-radius: 16px; 
+            border-left: 4px solid var(--grad-blue); margin-top: 1rem;
+        }
+        .case-review p { font-style: italic; color: var(--text-primary); }
+        .case-review strong { display: block; margin-top: 0.5rem; color: #0ea5e9; }
+
+        /* =========================================
+           CTA & FOOTER
+           ========================================= */
+        #cta { 
+            padding: 5rem 0; background: var(--grad-dark); text-align: center; 
+            border-radius: 40px; margin: 0 2rem 5rem 2rem; 
+        }
+        #cta h2 { color: white; font-size: 3rem; font-weight: 900; margin-bottom: 1rem; }
+        #cta p { color: #94a3b8; font-size: 1.2rem; margin-bottom: 2rem; }
+
+        footer { background: #0f172a; color: #94a3b8; padding: 5rem 0 2rem 0; }
+        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+        .f-brand p { max-width: 300px; line-height: 1.8; margin: 1.2rem 0; color: #64748b; }
+        .f-social { display: flex; gap: 1rem; }
+        .f-social span { width: 42px; height: 42px; border: 1px solid #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; cursor: pointer; color: #94a3b8; }
+        .f-social span:hover { border-color: #0ea5e9; color: #0ea5e9; background: rgba(14, 165, 233, 0.1); transform: translateY(-3px); }
+        .f-col h4 { color: white; margin-bottom: 1.5rem; font-size: 1.1rem; font-weight: 800; }
+        .f-col ul { list-style: none; }
+        .f-col ul li { margin-bottom: 0.8rem; }
+        .f-col ul li a { transition: color 0.3s; }
+        .f-col ul li a:hover { color: white; transform: translateX(5px); display: inline-block; }
+        
+        .news-box { 
+            background: rgba(255,255,255,0.05); padding: 2.5rem; border-radius: 24px; 
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; 
+            border: 1px solid #1e293b; 
+        }
+        .news-box h4 { color: white; font-size: 1.3rem; font-weight: 800; margin-bottom: 0.3rem; }
+        .news-box p { font-size: 0.95rem; color: #64748b; }
+        .news-form { display: flex; gap: 10px; }
+        .news-form input { 
+            padding: 14px 24px; border-radius: 50px; border: 1px solid #1e293b; background: #1e293b; 
+            color: white; width: 280px; outline: none; font-weight: 500; transition: border 0.3s; 
+        }
+        .news-form input:focus { border-color: #0ea5e9; box-shadow: 0 0 15px rgba(14, 165, 233, 0.1); }
+        
+        .f-bottom { border-top: 1px solid #1e293b; padding-top: 2rem; display: flex; justify-content: space-between; font-size: 0.9rem; }
+        .f-links { display: flex; gap: 2rem; }
+        .f-links a:hover { color: white; }
+
+        /* =========================================
+           RESPONSIVE
+           ========================================= */
+        @media (max-width: 1024px) { 
+            .hero-grid { grid-template-columns: 1fr; text-align: center; } 
+            .hero-text p { max-width: 100%; }
+            .hero-buttons { justify-content: center; }
+            .hero-text h1 { font-size: 3.2rem; }
+            #portfolio-hero, #cta { margin: 0 1rem 3rem 1rem; }
+            .portfolio-grid-container { grid-template-columns: 1fr 1fr; }
+            .case-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) { 
+            .portfolio-grid-container { grid-template-columns: 1fr; } 
+            .f-grid { grid-template-columns: 1fr; } 
+            .nav-links { display: none; }
+            .case-screenshots img { width: calc(50% - 0.5rem); }
+        }
+        @media (max-width: 480px) { 
+            .hero-text h1 { font-size: 2.5rem; } 
+            .news-box { flex-direction: column; gap: 20px; align-items: stretch; }
+            .news-form { flex-direction: column; }
+            .news-form input { width: 100%; }
+            .case-screenshots img { width: 100%; }
+            .filter-container { flex-wrap: nowrap; overflow-x: auto; padding: 0 1rem; justify-content: flex-start; }
+            .filter-container::-webkit-scrollbar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">Z</div> Zafnex Labs
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="services.html">Services</a>
+                <a href="#" class="active">Portfolio</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+                <a href="#" class="btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Portfolio Hero Banner -->
+    <section id="portfolio-hero">
+        <div class="container hero-grid">
+            <div class="hero-text reveal">
+                <div class="top-badge">✦ Our Work</div>
+                <h1>
+                    <span class="gradient-text-blue">Premium</span> Projects<br>
+                    Built with <span class="gradient-text-green">Excellence</span>
+                </h1>
+                <p>From fintech to healthcare, AI to e-commerce — explore our portfolio of world-class software solutions delivered for ambitious teams.</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary">View All Projects →</button>
+                    <button class="btn-outline">▶ Watch showreel</button>
+                </div>
+            </div>
+            <div class="hero-img-wrap reveal" style="transition-delay: 0.2s;">
+                <div class="hero-img-placeholder">
+                    <div class="img-text">Building<br>Excellence</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Filter -->
+    <section id="filter">
+        <div class="container filter-container">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="website">Website</button>
+            <button class="filter-btn" data-filter="erp">ERP</button>
+            <button class="filter-btn" data-filter="ai">AI</button>
+            <button class="filter-btn" data-filter="mobile">Mobile</button>
+            <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
+        </div>
+    </section>
+
+    <!-- Portfolio Grid -->
+    <section id="portfolio-grid">
+        <div class="container">
+            <div class="section-title reveal">
+                <h4 style="color: #0ea5e9; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Our Work</h4>
+                <h2>Products We're <span class="gradient-text-blue">Proud Of</span></h2>
+                <p>A snapshot of what we've shipped for clients across industries.</p>
+            </div>
+            <div class="portfolio-grid-container" id="portfolioGrid">
+                <!-- Project 1: FinEdge Banking -->
+                <div class="portfolio-item reveal" data-category="website">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" alt="FinEdge Banking" class="portfolio-img">
+                    <div class="portfolio-content">
+                        <div class="portfolio-tags">
+                            <span>React</span>
+                            <span>Node.js</span>
+                            <span>PostgreSQL</span>
+                        </div>
+                        <h3>FinEdge Banking</h3>
+                        <p>A next-gen digital banking platform with real-time analytics and seamless UX.</p>
+                        <div class="portfolio-actions">
+                            <button class="btn-demo">Live Demo</button>
+                            <button class="btn-details">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: MedCore ERP -->
+                <div class="portfolio-item reveal" style="transition-delay: 0.1s;" data-category="erp">
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop" alt="MedCore ERP" class="portfolio-img">
+                    <div class="portfolio-content">
+                        <div class="portfolio-tags">
+                            <span>Next.js</span>
+                            <span>Python</span>
+                            <span>AWS</span>
+                        </div>
+                        <h3>MedCore ERP</h3>
+                        <p>Comprehensive healthcare ERP system streamlining operations, finance, and patient management.</p>
+                        <div class="portfolio-actions">
+                            <button class="btn-demo">Live Demo</button>
+                            <button class="btn-details">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: Nova AI Studio -->
+                <div class="portfolio-item reveal" style="transition-delay: 0.2s;" data-category="ai">
+                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop" alt="Nova AI Studio" class="portfolio-img">
+                    <div class="portfolio-content">
+                        <div class="portfolio-tags">
+                            <span>Python</span>
+                            <span>LangChain</span>
+                            <span>OpenAI</span>
+                        </div>
+                        <h3>Nova AI Studio</h3>
+                        <p>An AI-powered platform for building custom LLM applications and intelligent agents.</p>
+                        <div class="portfolio-actions">
+                            <button class="btn-demo">Live Demo</button>
+                            <button class="btn-details">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: Retailly E-commerce -->
+                <div class="portfolio-item reveal" style="transition-delay: 0.3s;" data-category="ecommerce">
+                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?q=80&w=2070&auto=format&fit=crop" alt="Retailly" class="portfolio-img">
+                    <div class="portfolio-content">
+                        <div class="portfolio-tags">
+                            <span>React</span>
+                            <span>TypeScript</span>
+                            <span>Stripe</span>
+                        </div>
+                        <h3>Retailly</h3>
+                        <p>Scalable e-commerce platform with seamless checkout, inventory sync, and payment integrations.</p>
+                        <div class="portfolio-actions">
+                            <button class="btn-demo">Live Demo</button>
+                            <button class="btn-details">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5: Verdant Insurance -->
+                <div class="portfolio-item reveal" style="transition-delay: 0.4s;" data-category="website">
+                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2064&auto=format&fit=crop" alt="Verdant Insurance" class="portfolio-img">
+                    <div class="portfolio-content">
+                        <div class="portfolio-tags">
+                            <span>Next.js</span>
+                            <span>Go</span>
+                            <span>Azure</span>
+                        </div>
+                        <h3>Verdant Insurance</h3>
+                        <p>Insurtech platform with automated claims processing and real-time risk assessment.</p>
+                        <div class="portfolio-actions">
+                            <button class="btn-demo">Live Demo</button>
+                            <button class="btn-details">Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6: Skypath Logistics -->
+                <div class="portfolio-item reveal" style="transition-delay: 0.5s;" data-category="mobile">
+                    <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop" alt="Skypath Logistics" class="portfolio-img">
+                    <div class="portfolio-content">
+                        <div class="portfolio-tags">
+                            <span>Flutter</span>
+                            <span>Node.js</span>
+                            <span>MongoDB</span>
+                        </div>
+                        <h3>Skypath Logistics</h3>
+                        <p>Mobile-first logistics platform for real-time tracking, fleet management, and route optimization.</p>
+                        <div class="portfolio-actions">
+                            <button class="btn-demo">Live Demo</button>
+                            <button class="btn-details">Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Studies -->
+    <section id="case-studies">
+        <div class="container">
+            <div class="section-title reveal">
+                <h4 style="color: #a855f7; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Case Studies</h4>
+                <h2>Deep Dive Into <span class="gradient-text-purple">Success</span></h2>
+                <p>How we solved real business problems with engineering excellence.</p>
+            </div>
+            <div class="case-grid">
+                <!-- Case Study 1 -->
+                <div class="case-card reveal">
+                    <h3>FinEdge Banking</h3>
+                    <h4>Problem</h4>
+                    <p>FinEdge struggled with legacy systems that caused frequent downtime and slow transaction processing.</p>
+                    <h4>Solution</h4>
+                    <p>We rebuilt the entire platform using React and Node.js, implemented microservices architecture, and added real-time analytics dashboards.</p>
+                    <h4>Results</h4>
+                    <p>✅ 40% faster transaction processing<br>✅ 99.99% uptime achieved<br>✅ 30% increase in customer satisfaction</p>
+                    <div class="case-screenshots">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=400&auto=format&fit=crop" alt="Screenshot 1">
+                        <img src="https://images.unsplash.com/photo-1552664688-cf412ec27db2?q=80&w=400&auto=format&fit=crop" alt="Screenshot 2">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=400&auto=format&fit=crop" alt="Screenshot 3">
+                    </div>
+                    <div class="case-review">
+                        <p>"Zafnex Labs delivered our banking platform 3 months ahead of schedule. The engineering quality is world-class."</p>
+                        <strong>— Sarah Chen, CTO, FinEdge</strong>
+                    </div>
+                </div>
+
+                <!-- Case Study 2 -->
+                <div class="case-card reveal" style="transition-delay: 0.2s;">
+                    <h3>MedCore ERP</h3>
+                    <h4>Problem</h4>
+                    <p>MedCore was using disconnected tools for finance, HR, and patient records, leading to data silos and inefficiencies.</p>
+                    <h4>Solution</h4>
+                    <p>We designed a unified ERP system with a single source of truth, automated workflows, and secure role-based access.</p>
+                    <h4>Results</h4>
+                    <p>✅ 50% reduction in administrative time<br>✅ 99.9% data accuracy<br>✅ ROI achieved in 6 months</p>
+                    <div class="case-screenshots">
+                        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=400&auto=format&fit=crop" alt="Screenshot 1">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop" alt="Screenshot 2">
+                        <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=400&auto=format&fit=crop" alt="Screenshot 3">
+                    </div>
+                    <div class="case-review">
+                        <p>"Their ERP system transformed how we operate. ROI in 6 months. Design-obsessed team."</p>
+                        <strong>— David Okafor, CEO, MedCore</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="cta" class="reveal">
+        <div class="container">
+            <h2>Ready to Build Your <span class="gradient-text-blue">Next Project</span>?</h2>
+            <p>Let's discuss your requirements and see how Zafnex Labs can bring your vision to life.</p>
+            <a href="#" class="btn-primary" style="box-shadow: 0 4px 20px rgba(0,0,0,0.2);">Start a Project →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="f-grid">
+                <div class="f-brand">
+                    <div class="logo" style="color: white;">
+                        <div class="logo-icon">Z</div> Zafnex Labs
+                    </div>
+                    <p>Engineering premium software experiences for ambitious teams worldwide.</p>
+                    <div class="f-social">
+                        <span>𝕏</span> <span>in</span> <span>✉️</span>
+                    </div>
+                </div>
+                <div class="f-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Mobile Apps</a></li>
+                        <li><a href="#">ERP Solutions</a></li>
+                        <li><a href="#">AI Solutions</a></li>
+                    </ul>
+                </div>
+                <div class="f-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="f-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Case Studies</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="news-box">
+                <div>
+                    <h4>Subscribe to our newsletter</h4>
+                    <p>Product insights and industry trends. No spam.</p>
+                </div>
+                <div class="news-form">
+                    <input type="email" placeholder="you@company.com">
+                    <button class="btn-primary">Subscribe →</button>
+                </div>
+            </div>
+
+            <div class="f-bottom">
+                <span>© 2026 Zafnex Labs. All rights reserved.</span>
+                <div class="f-links">
+                    <a href="#">Privacy</a> <a href="#">Terms</a> <a href="#">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- =========================================
+         JAVASCRIPT
+         ========================================= -->
+    <script>
+        // --- SCROLL ANIMATION ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const reveals = document.querySelectorAll('.reveal');
+            const windowHeight = window.innerHeight;
+            
+            const revealOnScroll = () => {
+                const elementVisible = 150;
+                
+                reveals.forEach((reveal) => {
+                    const rect = reveal.getBoundingClientRect();
+                    if (rect.top < windowHeight - elementVisible) {
+                        reveal.classList.add('active');
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
+        });
+
+        // --- THEME TOGGLE LOGIC ---
+        const themeToggle = document.getElementById('themeToggle');
+        
+        // Check for saved theme preference
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateToggleIcon(currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            let theme = document.documentElement.getAttribute('data-theme');
+            let newTheme = theme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateToggleIcon(newTheme);
+        });
+
+        function updateToggleIcon(theme) {
+            themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+
+        // --- PORTFOLIO FILTER LOGIC ---
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                const filterValue = button.getAttribute('data-filter');
+
+                portfolioItems.forEach(item => {
+                    const category = item.getAttribute('data-category');
+                    
+                    if (filterValue === 'all' || category === filterValue) {
+                        item.style.display = 'block';
+                        // Trigger reflow for smooth animation
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateY(0)';
+                        }, 10);
+                    } else {
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // Initialize all items visible
+        portfolioItems.forEach(item => {
+            item.style.display = 'block';
+            item.style.opacity = '1';
+            item.style.transition = 'all 0.3s ease';
+        });
+    </script>
+
+</body>
+</html>
